@@ -8,6 +8,9 @@ fn main() {
 
 // create a component that renders a div with the text "Hello, world!"
 fn App(cx: Scope) -> Element {
+    let body_weight = use_state(cx, || "".to_string());
+    let lifted_weight = use_state(cx, || "".to_string());
+
     cx.render(rsx! {
         style { include_str!("./styles.css") }
         main {
@@ -40,7 +43,121 @@ fn App(cx: Scope) -> Element {
                         }
                     }
                     div {
-                        "Competiro info"
+                        h2 {
+                            "Competitor information"
+                        }
+                        div {
+                            class: "row",
+                            h4 {
+                                "Gendre"
+                            }
+                            label {
+                                input {
+                                    "type": "radio",
+                                    name: "gendre",
+                                    value: "male"
+                                }
+                                "Male"
+                            }
+                            label {
+                                input {
+                                    "type": "radio",
+                                    name: "gendre",
+                                    value: "female"
+                                }
+                                "Female"
+                            }
+                        }
+                        div {
+                            class: "row",
+                            h4 {
+                                "Units"
+                            }
+                            label {
+                                input {
+                                    "type": "radio",
+                                    name: "units",
+                                    value: "kilograms"
+                                }
+                                "Kilogram (kg)"
+                            }
+                            label {
+                                input {
+                                    "type": "radio",
+                                    name: "units",
+                                    value: "pounds"
+                                }
+                                "Pounds (lb)"
+                            }
+                        }
+                        div {
+                            class: "row",
+                            h4 {
+                                "Weight"
+                            }
+                            label {
+                                "Body"
+                                input {
+                                    "type": "text",
+                                    value: "{body_weight}",
+                                    oninput: move |evt| body_weight.set(evt.value.clone())
+                                    // value: "kilograms"
+                                }
+                            }
+                            label {
+                                "Lifted"
+                                input {
+                                    "type": "text",
+                                    value: "{lifted_weight}",
+                                    oninput: move |evt| lifted_weight.set(evt.value.clone())
+                                    // value: "pounds"
+                                }
+                            }
+                        }
+                        div {
+                            class: "row",
+                            h4 {
+                                "Category"
+                            }
+                            label {
+                                input {
+                                    "type": "radio",
+                                    name: "category",
+                                    value: "raw"
+                                }
+                                "Raw/Classic"
+                            }
+                            label {
+                                input {
+                                    "type": "radio",
+                                    name: "category",
+                                    value: "equipped"
+                                }
+                                "Equipped"
+                            }
+                        }
+                        div {
+                            class: "row",
+                            h4 {
+                                "Movements"
+                            }
+                            label {
+                                input {
+                                    "type": "radio",
+                                    name: "movements",
+                                    value: "fullmet"
+                                }
+                                "Full meet"
+                            }
+                            label {
+                                input {
+                                    "type": "radio",
+                                    name: "movements",
+                                    value: "bench"
+                                }
+                                "Bench only"
+                            }
+                        }
                     }
                 }
                 section {
@@ -60,7 +177,18 @@ fn App(cx: Scope) -> Element {
                         }
                     }
                     div {
-                        "Results"
+                        h2 {
+                            "Results"
+                        }
+                        div {
+                            class: "row",
+                            "{body_weight}"
+                        }
+
+                        div {
+                            class: "row",
+                            "{lifted_weight}"
+                        }
                     }
                 }
             }
