@@ -103,13 +103,30 @@ main > article.container > section > div > h2 {
 main > article.container > section > div > .row {
   width: 100%;
   display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+main > article.container > section > div > .row > .column {
+  flex: 0 1 auto;
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin: 0 20px 20px 0;
 }
 
-main > article.container > section > div > .row > h4 {
-  font-size: 18px;
-  margin: 0 0 10px;
+main > article.container > section > div label.free-text-label {
+  margin-right: 10px;
+}
+
+main > article.container > section > div label.radio-label {
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+
+main > article.container > section > div label.free-text-label + input[type=text] {
+  margin-right: 20px;
+  width: 100px;
 }

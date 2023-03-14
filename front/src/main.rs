@@ -1,6 +1,61 @@
 #![allow(non_snake_case)]
+use std::fmt;
+
 // import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
-use dioxus::{prelude::*};
+use dioxus::prelude::*;
+
+enum Gendre {
+    Male,
+    Female,
+}
+enum Units {
+    Kg,
+    Lb,
+}
+enum Movements {
+    FullMeet,
+    BenchOnly,
+}
+enum Category {
+    Raw,
+    Equipped,
+}
+
+impl fmt::Display for Gendre {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Gendre::Male => write!(f, "Male"),
+            Gendre::Female => write!(f, "Female"),
+        }
+    }
+}
+
+impl fmt::Display for Units {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Units::Kg => write!(f, "Kilograms (kg)"),
+            Units::Lb => write!(f, "Pounds (lb)"),
+        }
+    }
+}
+
+impl fmt::Display for Movements {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Movements::FullMeet => write!(f, "Full meet"),
+            Movements::BenchOnly => write!(f, "Bench only"),
+        }
+    }
+}
+
+impl fmt::Display for Category {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Category::Raw => write!(f, "Raw/Classic"),
+            Category::Equipped => write!(f, "Equipped"),
+        }
+    }
+}
 
 fn main() {
     dioxus_web::launch(App);
@@ -8,8 +63,12 @@ fn main() {
 
 // create a component that renders a div with the text "Hello, world!"
 fn App(cx: Scope) -> Element {
+    let gendre = use_state::<Gendre>(cx, || Gendre::Male);
+    let units = use_state::<Units>(cx, || Units::Kg);
     let body_weight = use_state(cx, || "".to_string());
     let lifted_weight = use_state(cx, || "".to_string());
+    let category = use_state::<Category>(cx, || Category::Raw);
+    let movements = use_state::<Movements>(cx, || Movements::FullMeet);
 
     cx.render(rsx! {
         style { include_str!("./styles.css") }
@@ -46,116 +105,155 @@ fn App(cx: Scope) -> Element {
                         h2 {
                             "Competitor information"
                         }
-                        div {
+                        section {
                             class: "row",
-                            h4 {
-                                "Gendre"
-                            }
-                            label {
-                                input {
-                                    "type": "radio",
-                                    name: "gendre",
-                                    value: "male"
+                            div {
+                                class: "column",
+                                h4 {
+                                    "Gendre"
                                 }
-                                "Male"
-                            }
-                            label {
-                                input {
-                                    "type": "radio",
-                                    name: "gendre",
-                                    value: "female"
+                                label {
+                                    class: "radio-label",
+                                    input {
+                                        "type": "radio",
+                                        name: "gendre",
+                                        value: "male",
+                                        checked: gendre.to_string() == Gendre::Male.to_string(),
+                                        onchange: move |_| gendre.set(Gendre::Male)
+                                    }
+                                    "Male"
                                 }
-                                "Female"
+                                label {
+                                    class: "radio-label",
+                                    input {
+                                        "type": "radio",
+                                        name: "gendre",
+                                        value: "female",
+                                        checked: gendre.to_string() == Gendre::Female.to_string(),
+                                        onchange: move |_| gendre.set(Gendre::Female)
+                                    }
+                                    "Female"
+                                }
+                            }
+                            div {
+                                class: "column",
+                                h4 {
+                                    "Units"
+                                }
+                                label {
+                                    class: "radio-label",
+                                    input {
+                                        "type": "radio",
+                                        name: "units",
+                                        value: "kilograms",
+                                        checked: units.to_string() == Units::Kg.to_string(),
+                                        onchange: move |_| units.set(Units::Kg)
+                                    }
+                                    "Kilogram (kg)"
+                                }
+                                label {
+                                    class: "radio-label",
+                                    input {
+                                        "type": "radio",
+                                        name: "units",
+                                        value: "pounds",
+                                        checked: units.to_string() == Units::Lb.to_string(),
+                                        onchange: move |_| units.set(Units::Lb)
+                                    }
+                                    "Pounds (lb)"
+                                }
                             }
                         }
-                        div {
+                        section  {
                             class: "row",
-                            h4 {
-                                "Units"
-                            }
-                            label {
-                                input {
-                                    "type": "radio",
-                                    name: "units",
-                                    value: "kilograms"
+                            div {
+                                class: "row",
+                                h4 {
+                                    "Weight"
                                 }
-                                "Kilogram (kg)"
-                            }
-                            label {
-                                input {
-                                    "type": "radio",
-                                    name: "units",
-                                    value: "pounds"
+                                label {
+                                    class: "free-text-label",
+                                    "for": "body_weight",
+                                    "Body"
                                 }
-                                "Pounds (lb)"
-                            }
-                        }
-                        div {
-                            class: "row",
-                            h4 {
-                                "Weight"
-                            }
-                            label {
-                                "Body"
                                 input {
                                     "type": "text",
+                                    id: "body_weight",
                                     value: "{body_weight}",
                                     oninput: move |evt| body_weight.set(evt.value.clone())
                                     // value: "kilograms"
                                 }
-                            }
-                            label {
-                                "Lifted"
+                                label {
+                                    class: "free-text-label",
+                                    "for": "lifted_weight",
+                                    "Lifted"
+                                }
                                 input {
                                     "type": "text",
+                                    id: "lifted_weight",
                                     value: "{lifted_weight}",
                                     oninput: move |evt| lifted_weight.set(evt.value.clone())
                                     // value: "pounds"
                                 }
                             }
                         }
-                        div {
+                        section {
                             class: "row",
-                            h4 {
-                                "Category"
-                            }
-                            label {
-                                input {
-                                    "type": "radio",
-                                    name: "category",
-                                    value: "raw"
+                            div {
+                                class: "column",
+                                h4 {
+                                    "Category"
                                 }
-                                "Raw/Classic"
-                            }
-                            label {
-                                input {
-                                    "type": "radio",
-                                    name: "category",
-                                    value: "equipped"
+                                label {
+                                    class: "radio-label",
+                                    input {
+                                        "type": "radio",
+                                        name: "category",
+                                        value: "raw",
+                                        checked: category.to_string() == Category::Raw.to_string(),
+                                        onchange: move |_| category.set(Category::Raw)
+                                    }
+                                    "Raw/Classic"
                                 }
-                                "Equipped"
-                            }
-                        }
-                        div {
-                            class: "row",
-                            h4 {
-                                "Movements"
-                            }
-                            label {
-                                input {
-                                    "type": "radio",
-                                    name: "movements",
-                                    value: "fullmet"
+                                label {
+                                    class: "radio-label",
+                                    input {
+                                        "type": "radio",
+                                        name: "category",
+                                        value: "equipped",
+                                        checked: category.to_string() == Category::Equipped.to_string(),
+                                        onchange: move |_| category.set(Category::Equipped)
+                                    }
+                                    "Equipped"
                                 }
-                                "Full meet"
                             }
-                            label {
-                                input {
-                                    "type": "radio",
-                                    name: "movements",
-                                    value: "bench"
+                            div {
+                                class: "column",
+                                h4 {
+                                    "Movements"
                                 }
-                                "Bench only"
+                                label {
+                                    class: "radio-label",
+                                    input {
+                                        "type": "radio",
+                                        name: "movements",
+                                        value: "fullmeet",
+                                        checked: movements.to_string() == Movements::FullMeet.to_string(),
+                                        onchange: move |_| movements.set(Movements::FullMeet)
+                                    }
+                                    "Full meet"
+                                }
+                                label {
+                                    class: "radio-label",
+                                    input {
+                                        "type": "radio",
+                                        name: "movements",
+                                        value: "bench",
+                                        checked: movements.to_string() == Movements::BenchOnly.to_string(),
+                                        onchange: move |_| movements.set(Movements::BenchOnly)
+                                    }
+                                    "Bench only"
+                                }
                             }
                         }
                     }
@@ -182,12 +280,27 @@ fn App(cx: Scope) -> Element {
                         }
                         div {
                             class: "row",
+                            "{gendre}"
+                        }
+                        div {
+                            class: "row",
+                            "{units}"
+                        }
+                        div {
+                            class: "row",
                             "{body_weight}"
                         }
-
                         div {
                             class: "row",
                             "{lifted_weight}"
+                        }
+                        div {
+                            class: "row",
+                            "{category}"
+                        }
+                        div {
+                            class: "row",
+                            "{movements}"
                         }
                     }
                 }
