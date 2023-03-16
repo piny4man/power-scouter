@@ -130,3 +130,18 @@ main > article.container > section > div label.free-text-label + input[type=text
   margin-right: 20px;
   width: 100px;
 }
+
+main > article.container > section > div input[type=text] {
+  padding: 6px 8px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  outline: none;
+  transition: ease all 0.2s;
+  font-size: 14px;
+}
+
+main > article.container > section > div input[type=text].invalid {
+  border-color: red;
+  color: red;
+}

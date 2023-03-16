@@ -1,5 +1,5 @@
 
-# Power Scouter 
+# Power Scouter
 ![Scouter](https://github.com/piny4man/power-scouter/blob/main/static/assets/images/scouter.png)
 
 Powerlifting competition points calculator.
@@ -11,14 +11,14 @@ Fullstack web application made with 🧡 and Rust.
 
 ## Tech Stack
 
-**Client:** Dioxus
+**Client:** [Dioxus](https://dioxuslabs.com/)
 
-**Server:** Actix-web
+**Server:** [Actix Web](https://actix.rs/)
 
 
 ## Roadmap
 
-- [ ]  Integer validation on inputs
+- [x]  Integer validation on inputs
 - [ ]  Local points calculation
 - [ ]  API points calculation
 - [ ]  Localstorage calculations history
