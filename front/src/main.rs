@@ -69,6 +69,8 @@ fn App(cx: Scope) -> Element {
     let lifted_weight = use_state(cx, || "".to_string());
     let category = use_state::<Category>(cx, || Category::Raw);
     let movements = use_state::<Movements>(cx, || Movements::FullMeet);
+    let is_body_weight_numeric = body_weight.get().to_string().parse::<f64>().is_ok();
+    let is_lifted_weight_numeric = lifted_weight.get().to_string().parse::<f64>().is_ok();
 
     cx.render(rsx! {
         style { include_str!("./styles.css") }
@@ -180,6 +182,7 @@ fn App(cx: Scope) -> Element {
                                     "type": "text",
                                     id: "body_weight",
                                     value: "{body_weight}",
+                                    class: if !body_weight.get().to_string().is_empty() && !is_body_weight_numeric { "invalid" } else { "" },
                                     oninput: move |evt| body_weight.set(evt.value.clone())
                                     // value: "kilograms"
                                 }
@@ -192,6 +195,7 @@ fn App(cx: Scope) -> Element {
                                     "type": "text",
                                     id: "lifted_weight",
                                     value: "{lifted_weight}",
+                                    class: if !lifted_weight.get().to_string().is_empty() && !is_lifted_weight_numeric { "invalid" } else { "" },
                                     oninput: move |evt| lifted_weight.set(evt.value.clone())
                                     // value: "pounds"
                                 }
