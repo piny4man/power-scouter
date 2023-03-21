@@ -17,7 +17,6 @@ Fullstack web application made with 🧡 and Rust.
 
 
 ## Roadmap
-
 - [x]  Integer validation on inputs
 - [ ]  Local points calculation
 - [ ]  API points calculation
