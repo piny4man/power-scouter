@@ -57,6 +57,73 @@ impl fmt::Display for Category {
     }
 }
 
+struct Score {
+    body_weight: f64,
+    lifted_weight: f64,
+    unit: Units,
+    ipfgl: f64,
+    ipf: f64,
+    old_wilks: f64,
+    new_wilks: f64,
+    dots: f64,
+}
+
+struct CompetitorInfo {
+    gendre: Gendre,
+    units: Units,
+    body_weight: String,
+    lifted_weight: String,
+    category: Category,
+    movements: Movements,
+}
+
+fn calculate_ipfgl() -> f64 {
+    10.10
+}
+
+fn calculate_ipf() -> f64 {
+    10.10
+}
+
+fn calculate_old_wilks() -> f64 {
+    10.10
+}
+
+fn calculate_new_wilks() -> f64 {
+    10.10
+}
+
+fn calculate_dots() -> f64 {
+    10.10
+}
+
+fn calculate_score(competitor_info: CompetitorInfo) -> Score {
+    let weight_coefficient = 0.45359237;
+    let are_units_kg = matches!(competitor_info.units, Units::Kg);
+    let body_weight_corrected = if are_units_kg {
+        competitor_info.body_weight.parse::<f64>().unwrap()
+    } else {
+        competitor_info.body_weight.parse::<f64>().unwrap() * weight_coefficient
+    };
+    let lifted_weight_corrected = if are_units_kg {
+        competitor_info.lifted_weight.parse::<f64>().unwrap()
+    } else {
+        competitor_info.lifted_weight.parse::<f64>().unwrap() * weight_coefficient
+    };
+
+
+    Score {
+        body_weight: body_weight_corrected,
+        lifted_weight: lifted_weight_corrected,
+        unit: competitor_info.units,
+        ipfgl: calculate_ipfgl(),
+        ipf: calculate_ipf(),
+        old_wilks: calculate_old_wilks(),
+        new_wilks: calculate_new_wilks(),
+        dots: calculate_dots(),
+    }
+}
+
 fn main() {
     dioxus_web::launch(App);
 }
