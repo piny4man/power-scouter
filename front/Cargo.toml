@@ -7,6 +7,10 @@ edition = "2021"
 
 [profile.release]
 strip = true
+debug = false
+lto = true
+opt-level = "s"
+panic = "abort"
 
 [dependencies]
 dioxus = "0.3.2"
