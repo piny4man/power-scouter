@@ -2,8 +2,8 @@
 mod components;
 mod models;
 
-use components::{Header};
-use models::{Units, Gendre, Category, Movements};
+use components::Header;
+use models::{Category, Gendre, Movements, Units};
 // import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
 use dioxus::prelude::*;
 
