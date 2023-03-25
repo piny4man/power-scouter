@@ -1,4 +1,6 @@
 use std::fmt;
+
+#[derive(Clone)]
 pub enum Units {
     Kg,
     Lb,

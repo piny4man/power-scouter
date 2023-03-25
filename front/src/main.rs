@@ -1,11 +1,13 @@
 #![allow(non_snake_case)]
 mod components;
 mod models;
+mod helpers;
 
-use components::Header;
-use models::{Category, Gendre, Movements, Units};
 // import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
 use dioxus::prelude::*;
+use models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
+use components::Header;
+use helpers::calculations::calculate_score;
 
 fn main() {
     dioxus_web::launch(App);
@@ -19,8 +21,28 @@ fn App(cx: Scope) -> Element {
     let lifted_weight = use_state(cx, || "".to_string());
     let category = use_state::<Category>(cx, || Category::Raw);
     let movements = use_state::<Movements>(cx, || Movements::FullMeet);
+    let score = use_state::<Option<Score>>(cx, || None);
     let is_body_weight_numeric = body_weight.get().to_string().parse::<f64>().is_ok();
     let is_lifted_weight_numeric = lifted_weight.get().to_string().parse::<f64>().is_ok();
+
+    let get_score = |_| {
+        let gendre_copy = gendre.get();
+        let units_copy = units.get();
+        let category_copy = category.get();
+        let movements_copy = movements.get();
+        let body_weight_copy = body_weight.to_owned().get().to_string();
+        let lifted_weight_copy = lifted_weight.to_owned().get().to_string();
+        let competitor = CompetitorInfo {
+            gendre: gendre_copy.clone(),
+            units: units_copy.clone(),
+            body_weight: body_weight_copy,
+            lifted_weight: lifted_weight_copy,
+            category: category_copy.clone(),
+            movements: movements_copy.clone(),
+        };
+        let calculated_score = calculate_score(competitor);
+        score.set(Some(calculated_score))
+    };
 
     cx.render(rsx! {
         style { include_str!("./styles.css") }
@@ -199,6 +221,11 @@ fn App(cx: Scope) -> Element {
                                     "Bench only"
                                 }
                             }
+
+                            button {
+                                onclick: get_score,
+                                "Calculate"
+                            }
                         }
                     }
                 }
@@ -245,6 +272,16 @@ fn App(cx: Scope) -> Element {
                         div {
                             class: "row",
                             "{movements}"
+                        }
+                        div {
+                            match score.get() {
+                                Some(res) => cx.render(rsx! {
+                                    "{res.ipfgl.to_string()}"
+                                }),
+                                _ => cx.render(rsx! {
+                                    "No score"
+                                })
+                            }
                         }
                     }
                 }
