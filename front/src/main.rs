@@ -222,6 +222,9 @@ fn App(cx: Scope) -> Element {
                                 }
                             }
 
+                        }
+                        section {
+                            class: "row",
                             button {
                                 onclick: get_score,
                                 "Calculate"
@@ -250,33 +253,38 @@ fn App(cx: Scope) -> Element {
                             "Results"
                         }
                         div {
-                            class: "row",
-                            "{gendre}"
-                        }
-                        div {
-                            class: "row",
-                            "{units}"
-                        }
-                        div {
-                            class: "row",
-                            "{body_weight}"
-                        }
-                        div {
-                            class: "row",
-                            "{lifted_weight}"
-                        }
-                        div {
-                            class: "row",
-                            "{category}"
-                        }
-                        div {
-                            class: "row",
-                            "{movements}"
-                        }
-                        div {
                             match score.get() {
                                 Some(res) => cx.render(rsx! {
-                                    "{res.ipfgl.to_string()}"
+                                    p {
+                                        span {
+                                            "IPF GL:"
+                                        }
+                                        "{res.ipfgl.to_string()}"
+                                    }
+                                    p {
+                                        span {
+                                            "IPF:"
+                                        }
+                                        "{res.ipf.to_string()}"
+                                    }
+                                    p {
+                                        span {
+                                            "Wilks:"
+                                        }
+                                        "{res.new_wilks.to_string()}"
+                                    }
+                                    p {
+                                        span {
+                                            "Old Wilks:"
+                                        }
+                                        "{res.old_wilks.to_string()}"
+                                    }
+                                    p {
+                                        span {
+                                            "DOTS:"
+                                        }
+                                        "{res.dots.to_string()}"
+                                    }
                                 }),
                                 _ => cx.render(rsx! {
                                     "No score"

@@ -1,5 +1,3 @@
-// mod crate;
-
 use crate::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
 
 fn calculate_ipfgl(body_weight: &f64, lifted_weight: &f64, is_female: bool, movements: &Movements, category: &Category) -> f64 {

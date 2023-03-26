@@ -1,5 +1,5 @@
 
-# Power Scouter
+# [Power Scouter](https://power-scouter.shuttleapp.rs/)
 ![Scouter](https://github.com/piny4man/power-scouter/blob/main/static/assets/images/scouter.png)
 
 Powerlifting competition points calculator.
@@ -18,8 +18,9 @@ Fullstack web application made with 🧡 and Rust.
 
 ## Roadmap
 - [x]  Integer validation on inputs
-- [ ]  Local points calculation
+- [x]  Local points calculation
 - [ ]  API points calculation
+- [ ]  Create frontend components
 - [ ]  Localstorage calculations history
 - [ ]  Authentiacion, passwordless approach
 - [ ]  Make sayan scouter with CSS 🤞

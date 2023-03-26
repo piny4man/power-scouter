@@ -3,6 +3,7 @@ body {
   padding: 0;
   width: 100vw;
   height: 100vh;
+  background-color: #CBC8C8;
 }
 
 main {
@@ -16,28 +17,47 @@ main {
 }
 
 main > header {
-  width: auto;
+  background-color: transparent;
+  color: #1C1C1C;
+  width: 100%;
+  padding: 10px 40px;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
-main > header {
-  background-color: #BA3C36;
-  color: #1C1C1C;
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+main > header > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-main > header > h1 {
+main > header > div > h1 {
   margin: 0 20px;
 }
 
-main > header > img {
-  max-width: 100px;
+main > header > div > img {
+  max-width: 80px;
+  height: auto;
+}
+
+main > header > div > a,
+main > header > div > a:visited {
+  color: #1C1C1C;
+  transition: ease all 0.1s;
+}
+
+main > header > div > a:hover {
+  color: #962F2B;
+}
+
+main > header > div svg {
+  width: 100%;
+  max-width: 40px;
   height: auto;
 }
 
@@ -48,7 +68,7 @@ main > article.container {
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
-  padding: 40px;
+  padding:  0 40px 40px;
   box-sizing: border-box;
 }
 
@@ -144,4 +164,32 @@ main > article.container > section > div input[type=text] {
 main > article.container > section > div input[type=text].invalid {
   border-color: red;
   color: red;
+}
+
+@media only screen and (max-width: 950px) {
+  main > header {
+    padding: 10px 20px;
+  }
+
+  main > header > div > h1 {
+    margin: 0 20px;
+    font-size: 1.4em;
+  }
+
+  main > article.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding:  0 20px 40px;
+    box-sizing: border-box;
+  }
+
+  main > article.container > section.competitor {
+    margin-right: 0;
+  }
+
+  main > article.container > section svg {
+    max-width: 40px;
+    color: #962F2B;
+  }
 }
