@@ -1,5 +1,5 @@
 
-# [Power Scouter](https://power-scouter.shuttleapp.rs/)
+# [Power Scouter](https://power-scouter.shuttleapp.rs/) [![Pull Request Build validation](https://github.com/piny4man/power-scouter/actions/workflows/pull-request.yml/badge.svg)](https://github.com/piny4man/power-scouter/actions/workflows/pull-request.yml)
 ![Scouter](https://github.com/piny4man/power-scouter/blob/main/static/assets/images/scouter.png)
 
 Powerlifting competition points calculator.
