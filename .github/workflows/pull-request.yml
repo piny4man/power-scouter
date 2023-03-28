@@ -1,0 +1,31 @@
+name: "Pull Request Build validation"
+run-name: ${{ github.actor }} is building app helped by 🦀
+on:
+  pull_request:
+    types: [opened, reopened]
+jobs:
+  build_and_test:
+    name: Rust project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+      - name: Install cargo-make
+        uses: baptiste0928/cargo-install@v2
+        with:
+          crate: cargo-make
+          version: "^0.36.5"
+      - name: Install dioxus-cli
+        uses: baptiste0928/cargo-install@v2
+        with:
+          crate: dioxus-cli
+          version: "^0.3.0"
+      - name: Run cargo make
+        run: cargo make front
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --all-features
