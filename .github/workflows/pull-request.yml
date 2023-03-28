@@ -2,7 +2,7 @@ name: "Pull Request Build validation"
 run-name: ${{ github.actor }} is building app helped by 🦀
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, edited, reopened]
 jobs:
   build_and_test:
     name: Rust project
