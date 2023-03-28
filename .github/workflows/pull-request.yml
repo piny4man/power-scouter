@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v1
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -23,9 +25,10 @@ jobs:
         with:
           crate: dioxus-cli
           version: "^0.3.0"
-      # - name: Run cargo make
-      #   run: cargo make front
-      - uses: actions-rs/cargo@v1
+      - name: Build Frontend
+        run: cargo make front
+      - name: Build API
+        uses: actions-rs/cargo@v1
         with:
           command: build
           args: --release --all-features
