@@ -1,13 +1,11 @@
 #![allow(non_snake_case)]
 mod components;
-mod models;
-mod helpers;
 
 // import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
 use dioxus::prelude::*;
-use models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
+use shared::models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
+use shared::helpers::calculations::calculate_score;
 use components::Header;
-use helpers::calculations::calculate_score;
 
 fn main() {
     dioxus_web::launch(App);
