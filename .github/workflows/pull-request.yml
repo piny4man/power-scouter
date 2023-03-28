@@ -2,10 +2,10 @@ name: "Pull Request Build validation"
 run-name: ${{ github.actor }} is building app helped by 🦀
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    types: [opened, synchronize, edited, reopened]
 jobs:
   build_and_test:
-    name: Rust project
+    name: Build Frontend and API
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
