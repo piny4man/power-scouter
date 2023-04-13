@@ -1,6 +1,8 @@
 use std::fmt;
 
-#[derive(Clone)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Deserialize, Serialize)]
 pub enum Gendre {
     Male,
     Female,

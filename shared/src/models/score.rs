@@ -1,5 +1,8 @@
+use serde::{Serialize, Deserialize};
+
 use super::Units;
 
+#[derive(Serialize, Deserialize)]
 pub struct Score {
     pub body_weight: f64,
     pub lifted_weight: f64,
