@@ -1,6 +1,8 @@
 use std::fmt;
 
-#[derive(Clone)]
+use serde::{Serialize, Deserialize};
+
+#[derive(Clone, Deserialize, Serialize)]
 pub enum Movements {
     FullMeet,
     BenchOnly,

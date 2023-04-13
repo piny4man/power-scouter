@@ -19,12 +19,11 @@ Fullstack web application made with 🧡 and Rust.
 ## Roadmap
 - [x]  Integer validation on inputs
 - [x]  Local points calculation
-- [ ]  API points calculation
+- [x]  API Score calculation
 - [ ]  Create frontend components
 - [ ]  Localstorage calculations history
 - [ ]  Authentiacion, passwordless approach
 - [ ]  Make sayan scouter with CSS 🤞
-
 
 
 ## Website

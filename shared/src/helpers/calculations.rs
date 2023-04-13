@@ -1,4 +1,4 @@
-use crate::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
+use crate::models::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
 
 fn calculate_ipfgl(body_weight: &f64, lifted_weight: &f64, is_female: bool, movements: &Movements, category: &Category) -> f64 {
     let men_equipped_full_meet_coeff: [f64; 3] = [1236.25115, 1449.21864, 0.01644];

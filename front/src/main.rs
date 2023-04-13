@@ -1,13 +1,16 @@
 #![allow(non_snake_case)]
 mod components;
-mod models;
-mod helpers;
 
 // import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
 use dioxus::prelude::*;
-use models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
+use shared::models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
 use components::Header;
-use helpers::calculations::calculate_score;
+
+const HOST: &str = "https://power-scouter.shuttleapp.rs";
+
+fn score_endpoint() -> String {
+    format!("{HOST}/score")
+}
 
 fn main() {
     dioxus_web::launch(App);
@@ -25,7 +28,7 @@ fn App(cx: Scope) -> Element {
     let is_body_weight_numeric = body_weight.get().to_string().parse::<f64>().is_ok();
     let is_lifted_weight_numeric = lifted_weight.get().to_string().parse::<f64>().is_ok();
 
-    let get_score = |_| {
+    let get_score = move |_| {
         let gendre_copy = gendre.get();
         let units_copy = units.get();
         let category_copy = category.get();
@@ -40,8 +43,30 @@ fn App(cx: Scope) -> Element {
             category: category_copy.clone(),
             movements: movements_copy.clone(),
         };
-        let calculated_score = calculate_score(competitor);
-        score.set(Some(calculated_score))
+        let score = score.to_owned();
+
+        cx.spawn({
+            async move {
+                // let calculated_score = calculate_score(competitor);
+                let calculated_score = reqwest::Client::new()
+                    .post(&score_endpoint())
+                    .json(&competitor)
+                    .send()
+                    .await;
+
+                match calculated_score {
+                    Ok(new_score) => {
+                        log::info!("Score calculated!");
+                        score.set(Some(new_score.json().await.unwrap()))
+
+                    }
+                    Err(err) => {
+                        log::info!("User creation failed, {err:?}");
+                    }
+                }
+            }
+        })
+
     };
 
     cx.render(rsx! {

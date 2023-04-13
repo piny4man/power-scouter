@@ -1,5 +1,8 @@
+use serde::{Serialize, Deserialize};
+
 use super::{Category, Gendre, Movements, Units};
 
+#[derive(Serialize, Deserialize)]
 pub struct CompetitorInfo {
     pub gendre: Gendre,
     pub units: Units,
