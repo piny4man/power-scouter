@@ -4,7 +4,7 @@ mod components;
 // import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
 use dioxus::prelude::*;
 use shared::models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
-use components::Header;
+use components::{Header, ScoreBubble, Title};
 
 const HOST: &str = "https://power-scouter.shuttleapp.rs";
 
@@ -91,7 +91,7 @@ fn App(cx: Scope) -> Element {
                         }
                     }
                     div {
-                        h2 {
+                        Title {
                             "Competitor information"
                         }
                         section {
@@ -171,7 +171,6 @@ fn App(cx: Scope) -> Element {
                                     value: "{body_weight}",
                                     class: if !body_weight.get().to_string().is_empty() && !is_body_weight_numeric { "invalid" } else { "" },
                                     oninput: move |evt| body_weight.set(evt.value.clone())
-                                    // value: "kilograms"
                                 }
                                 label {
                                     class: "free-text-label",
@@ -184,7 +183,6 @@ fn App(cx: Scope) -> Element {
                                     value: "{lifted_weight}",
                                     class: if !lifted_weight.get().to_string().is_empty() && !is_lifted_weight_numeric { "invalid" } else { "" },
                                     oninput: move |evt| lifted_weight.set(evt.value.clone())
-                                    // value: "pounds"
                                 }
                             }
                         }
@@ -274,41 +272,32 @@ fn App(cx: Scope) -> Element {
                         }
                     }
                     div {
-                        h2 {
+                        Title {
                             "Results"
                         }
                         div {
+                            class: "score-container",
                             match score.get() {
                                 Some(res) => cx.render(rsx! {
-                                    p {
-                                        span {
-                                            "IPF GL:"
-                                        }
-                                        "{res.ipfgl.to_string()}"
+                                    ScoreBubble {
+                                        label: "IPF GL:",
+                                        score: &res.ipfgl,
                                     }
-                                    p {
-                                        span {
-                                            "IPF:"
-                                        }
-                                        "{res.ipf.to_string()}"
+                                    ScoreBubble {
+                                        label: "IPF:",
+                                        score: &res.ipf,
                                     }
-                                    p {
-                                        span {
-                                            "Wilks:"
-                                        }
-                                        "{res.new_wilks.to_string()}"
+                                    ScoreBubble {
+                                        label: "Wilks:",
+                                        score: &res.new_wilks,
                                     }
-                                    p {
-                                        span {
-                                            "Old Wilks:"
-                                        }
-                                        "{res.old_wilks.to_string()}"
+                                    ScoreBubble {
+                                        label: "Old Wilks:",
+                                        score: &res.old_wilks,
                                     }
-                                    p {
-                                        span {
-                                            "DOTS:"
-                                        }
-                                        "{res.dots.to_string()}"
+                                    ScoreBubble {
+                                        label: "DOTS:",
+                                        score: &res.dots,
                                     }
                                 }),
                                 _ => cx.render(rsx! {
