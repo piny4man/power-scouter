@@ -21,6 +21,7 @@ Fullstack web application made with 🧡 and Rust.
 - [x]  Local points calculation
 - [x]  API Score calculation
 - [ ]  Create frontend components
+- [ ]  Build frontend using `trunk`
 - [ ]  Localstorage calculations history
 - [ ]  Authentiacion, passwordless approach
 - [ ]  Make sayan scouter with CSS 🤞

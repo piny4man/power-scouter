@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use actix_cors::Cors;
 use actix_web::{get, post, web::{ServiceConfig, Json, scope}, Result};
 use shuttle_actix_web::ShuttleActixWeb;
 
@@ -21,10 +22,12 @@ async fn actix_web(
     #[shuttle_static_folder::StaticFolder] static_folder: PathBuf,
 ) -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Sync + Send + Clone + 'static> {
     let config = move |cfg: &mut ServiceConfig| {
+        let cors = Cors::permissive();
         cfg
             .service(hello_world)
             .service(
                 scope("/score")
+                    .wrap(cors)
                     .service(calculate_results)
             )
             .service(
