@@ -4,7 +4,7 @@ mod components;
 // import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
 use dioxus::prelude::*;
 use shared::models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
-use components::{Header, ScoreBubble, Title};
+use components::{Header, Field, ScoreBubble, Title};
 
 const HOST: &str = "https://power-scouter.shuttleapp.rs";
 
@@ -70,8 +70,8 @@ fn App(cx: Scope) -> Element {
     };
 
     cx.render(rsx! {
-        style { include_str!("./styles.css") }
         main {
+            style { include_str!("./styles.css") }
             Header {},
             article {
                 class: "container",
@@ -101,8 +101,9 @@ fn App(cx: Scope) -> Element {
                                 h4 {
                                     "Gendre"
                                 }
-                                label {
-                                    class: "radio-label",
+                                Field {
+                                    className: "radio-label"
+                                    label: "Male",
                                     input {
                                         "type": "radio",
                                         name: "gendre",
@@ -110,10 +111,10 @@ fn App(cx: Scope) -> Element {
                                         checked: gendre.to_string() == Gendre::Male.to_string(),
                                         onchange: move |_| gendre.set(Gendre::Male)
                                     }
-                                    "Male"
                                 }
-                                label {
-                                    class: "radio-label",
+                                Field {
+                                    className: "radio-label",
+                                    label: "Female"
                                     input {
                                         "type": "radio",
                                         name: "gendre",
@@ -121,7 +122,6 @@ fn App(cx: Scope) -> Element {
                                         checked: gendre.to_string() == Gendre::Female.to_string(),
                                         onchange: move |_| gendre.set(Gendre::Female)
                                     }
-                                    "Female"
                                 }
                             }
                             div {
@@ -129,8 +129,9 @@ fn App(cx: Scope) -> Element {
                                 h4 {
                                     "Units"
                                 }
-                                label {
-                                    class: "radio-label",
+                                Field {
+                                    className: "radio-label",
+                                    label: "Kilogram (kg)"
                                     input {
                                         "type": "radio",
                                         name: "units",
@@ -138,10 +139,10 @@ fn App(cx: Scope) -> Element {
                                         checked: units.to_string() == Units::Kg.to_string(),
                                         onchange: move |_| units.set(Units::Kg)
                                     }
-                                    "Kilogram (kg)"
                                 }
-                                label {
-                                    class: "radio-label",
+                                Field {
+                                    className: "radio-label",
+                                    label: "Pounds (lb)"
                                     input {
                                         "type": "radio",
                                         name: "units",
@@ -149,7 +150,6 @@ fn App(cx: Scope) -> Element {
                                         checked: units.to_string() == Units::Lb.to_string(),
                                         onchange: move |_| units.set(Units::Lb)
                                     }
-                                    "Pounds (lb)"
                                 }
                             }
                         }
@@ -193,8 +193,9 @@ fn App(cx: Scope) -> Element {
                                 h4 {
                                     "Category"
                                 }
-                                label {
-                                    class: "radio-label",
+                                Field {
+                                    className: "radio-label",
+                                    label: "Raw/Classic",
                                     input {
                                         "type": "radio",
                                         name: "category",
@@ -202,10 +203,10 @@ fn App(cx: Scope) -> Element {
                                         checked: category.to_string() == Category::Raw.to_string(),
                                         onchange: move |_| category.set(Category::Raw)
                                     }
-                                    "Raw/Classic"
                                 }
-                                label {
-                                    class: "radio-label",
+                                Field {
+                                    className: "radio-label",
+                                    label: "Equipped",
                                     input {
                                         "type": "radio",
                                         name: "category",
@@ -213,7 +214,6 @@ fn App(cx: Scope) -> Element {
                                         checked: category.to_string() == Category::Equipped.to_string(),
                                         onchange: move |_| category.set(Category::Equipped)
                                     }
-                                    "Equipped"
                                 }
                             }
                             div {
@@ -221,8 +221,9 @@ fn App(cx: Scope) -> Element {
                                 h4 {
                                     "Movements"
                                 }
-                                label {
-                                    class: "radio-label",
+                                Field {
+                                    className: "radio-label",
+                                    label: "Full meet",
                                     input {
                                         "type": "radio",
                                         name: "movements",
@@ -230,10 +231,10 @@ fn App(cx: Scope) -> Element {
                                         checked: movements.to_string() == Movements::FullMeet.to_string(),
                                         onchange: move |_| movements.set(Movements::FullMeet)
                                     }
-                                    "Full meet"
                                 }
-                                label {
-                                    class: "radio-label",
+                                Field {
+                                    className: "radio-label",
+                                    label: "Bench only",
                                     input {
                                         "type": "radio",
                                         name: "movements",
@@ -241,7 +242,6 @@ fn App(cx: Scope) -> Element {
                                         checked: movements.to_string() == Movements::BenchOnly.to_string(),
                                         onchange: move |_| movements.set(Movements::BenchOnly)
                                     }
-                                    "Bench only"
                                 }
                             }
 
