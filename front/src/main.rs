@@ -4,7 +4,7 @@ mod components;
 // import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
 use dioxus::prelude::*;
 use shared::models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
-use components::{Header, Field, ScoreBubble, Title};
+use components::{Header, Button, Field, ScoreBubble, Title};
 
 const HOST: &str = "https://power-scouter.shuttleapp.rs";
 
@@ -71,7 +71,12 @@ fn App(cx: Scope) -> Element {
 
     cx.render(rsx! {
         main {
-            style { include_str!("./styles.css") }
+            style {
+                include_str!("./styles/index.css"),
+                include_str!("./styles/button.css"),
+                include_str!("./styles/field.css"),
+                include_str!("./styles/score_bubble.css")
+            }
             Header {},
             article {
                 class: "container",
@@ -102,7 +107,7 @@ fn App(cx: Scope) -> Element {
                                     "Gendre"
                                 }
                                 Field {
-                                    className: "radio-label"
+                                    className: "radio"
                                     label: "Male",
                                     input {
                                         "type": "radio",
@@ -113,7 +118,7 @@ fn App(cx: Scope) -> Element {
                                     }
                                 }
                                 Field {
-                                    className: "radio-label",
+                                    className: "radio",
                                     label: "Female"
                                     input {
                                         "type": "radio",
@@ -130,7 +135,7 @@ fn App(cx: Scope) -> Element {
                                     "Units"
                                 }
                                 Field {
-                                    className: "radio-label",
+                                    className: "radio",
                                     label: "Kilogram (kg)"
                                     input {
                                         "type": "radio",
@@ -141,7 +146,7 @@ fn App(cx: Scope) -> Element {
                                     }
                                 }
                                 Field {
-                                    className: "radio-label",
+                                    className: "radio",
                                     label: "Pounds (lb)"
                                     input {
                                         "type": "radio",
@@ -156,33 +161,36 @@ fn App(cx: Scope) -> Element {
                         section  {
                             class: "row",
                             div {
-                                class: "row",
+                                class: "column  full-width",
                                 h4 {
                                     "Weight"
                                 }
-                                label {
-                                    class: "free-text-label",
-                                    "for": "body_weight",
-                                    "Body"
-                                }
-                                input {
-                                    "type": "text",
-                                    id: "body_weight",
-                                    value: "{body_weight}",
-                                    class: if !body_weight.get().to_string().is_empty() && !is_body_weight_numeric { "invalid" } else { "" },
-                                    oninput: move |evt| body_weight.set(evt.value.clone())
-                                }
-                                label {
-                                    class: "free-text-label",
-                                    "for": "lifted_weight",
-                                    "Lifted"
-                                }
-                                input {
-                                    "type": "text",
-                                    id: "lifted_weight",
-                                    value: "{lifted_weight}",
-                                    class: if !lifted_weight.get().to_string().is_empty() && !is_lifted_weight_numeric { "invalid" } else { "" },
-                                    oninput: move |evt| lifted_weight.set(evt.value.clone())
+                                div {
+                                    class: "content",
+                                    Field {
+                                        className: "free-text",
+                                        label: "Body",
+                                        htmlFor: "body_weight",
+                                        input {
+                                            "type": "text",
+                                            id: "body_weight",
+                                            value: "{body_weight}",
+                                            class: if !body_weight.get().to_string().is_empty() && !is_body_weight_numeric { "invalid" } else { "" },
+                                            oninput: move |evt| body_weight.set(evt.value.clone())
+                                        }
+                                    }
+                                    Field {
+                                        className: "free-text",
+                                        label: "Lifted",
+                                        htmlFor: "lifted_weight",
+                                        input {
+                                            "type": "text",
+                                            id: "lifted_weight",
+                                            value: "{lifted_weight}",
+                                            class: if !lifted_weight.get().to_string().is_empty() && !is_lifted_weight_numeric { "invalid" } else { "" },
+                                            oninput: move |evt| lifted_weight.set(evt.value.clone())
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -194,7 +202,7 @@ fn App(cx: Scope) -> Element {
                                     "Category"
                                 }
                                 Field {
-                                    className: "radio-label",
+                                    className: "radio",
                                     label: "Raw/Classic",
                                     input {
                                         "type": "radio",
@@ -205,7 +213,7 @@ fn App(cx: Scope) -> Element {
                                     }
                                 }
                                 Field {
-                                    className: "radio-label",
+                                    className: "radio",
                                     label: "Equipped",
                                     input {
                                         "type": "radio",
@@ -222,7 +230,7 @@ fn App(cx: Scope) -> Element {
                                     "Movements"
                                 }
                                 Field {
-                                    className: "radio-label",
+                                    className: "radio",
                                     label: "Full meet",
                                     input {
                                         "type": "radio",
@@ -233,7 +241,7 @@ fn App(cx: Scope) -> Element {
                                     }
                                 }
                                 Field {
-                                    className: "radio-label",
+                                    className: "radio",
                                     label: "Bench only",
                                     input {
                                         "type": "radio",
@@ -248,8 +256,8 @@ fn App(cx: Scope) -> Element {
                         }
                         section {
                             class: "row",
-                            button {
-                                onclick: get_score,
+                            Button {
+                                on_click: get_score,
                                 "Calculate"
                             }
                         }

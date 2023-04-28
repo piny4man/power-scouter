@@ -137,18 +137,16 @@ main > article.container > section > div > .row > .column {
   margin: 0 20px 20px 0;
 }
 
-main > article.container > section > div label.free-text-label {
-  margin-right: 10px;
+main > article.container > section > div > .row > .column.full-width {
+  width: 100%;
 }
 
-main > article.container > section > div label.radio-label {
-  cursor: pointer;
-  margin-bottom: 4px;
-}
-
-main > article.container > section > div label.free-text-label + input[type=text] {
-  margin-right: 20px;
-  width: 100px;
+main > article.container > section > div > .row > .column > .content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 main > article.container > section > div input[type=text] {
@@ -176,26 +174,6 @@ main > article.container > section > div .score-container {
   box-sizing: border-box;
   border: 1px solid #CBC8C833;
   border-radius: 4px;
-}
-
-main > article.container > section > div .score-container .score-bubble {
-  padding: 10px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: #CBC8C8;
-  color: #344B55;
-  margin: 0 8px 8px 0;
-}
-
-main > article.container > section > div .score-container .score-bubble:last-of-type {
-  margin-right: 0;
-}
-
-main > article.container > section > div .score-container .score-bubble > span {
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 8px;
 }
 
 @media only screen and (max-width: 950px) {
