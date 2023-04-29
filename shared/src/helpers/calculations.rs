@@ -1,6 +1,12 @@
 use crate::models::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
 
-fn calculate_ipfgl(body_weight: &f64, lifted_weight: &f64, is_female: bool, movements: &Movements, category: &Category) -> f64 {
+fn calculate_ipfgl(
+    body_weight: &f64,
+    lifted_weight: &f64,
+    is_female: bool,
+    movements: &Movements,
+    category: &Category,
+) -> f64 {
     let men_equipped_full_meet_coeff: [f64; 3] = [1236.25115, 1449.21864, 0.01644];
     let men_raw_full_meet_coeff: [f64; 3] = [1199.72839, 1025.18162, 0.00921];
     let men_equipped_bench_coeff: [f64; 3] = [381.22073, 733.79378, 0.02398];
@@ -49,7 +55,13 @@ fn calculate_ipfgl(body_weight: &f64, lifted_weight: &f64, is_female: bool, move
     score
 }
 
-fn calculate_ipf(body_weight: &f64, lifted_weight: &f64, is_female: bool, movements: &Movements, category: &Category) -> f64 {
+fn calculate_ipf(
+    body_weight: &f64,
+    lifted_weight: &f64,
+    is_female: bool,
+    movements: &Movements,
+    category: &Category,
+) -> f64 {
     let men_equipped_full_meet_coeff: [f64; 4] = [387.265, 1121.28, 80.6324, 222.4896];
     let men_raw_full_meet_coeff: [f64; 4] = [310.67, 857.785, 53.216, 147.0835];
     let men_equipped_bench_coeff: [f64; 4] = [133.94, 441.465, 35.3938, 113.0057];
@@ -93,11 +105,13 @@ fn calculate_ipf(body_weight: &f64, lifted_weight: &f64, is_female: bool, moveme
     }
 
     let body_weight_ln = body_weight.ln();
-    let score = 500.0 + 100.0 * (lifted_weight - (coeff[0] * body_weight_ln - coeff[1])) / (coeff[2] * body_weight_ln - coeff[3]);
+    let score = 500.0
+        + 100.0 * (lifted_weight - (coeff[0] * body_weight_ln - coeff[1]))
+            / (coeff[2] * body_weight_ln - coeff[3]);
     score
 }
 
-fn calculate_old_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool,) -> f64 {
+fn calculate_old_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool) -> f64 {
     let male_coeff: [f64; 6] = [
         -216.0475144,
         16.2606339,
@@ -114,7 +128,11 @@ fn calculate_old_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool,)
         4.731582e-5,
         -9.054e-8,
     ];
-    let mut denominator = if is_female { female_coeff[0] } else { male_coeff[0] };
+    let mut denominator = if is_female {
+        female_coeff[0]
+    } else {
+        male_coeff[0]
+    };
     let coefficient = if is_female { female_coeff } else { male_coeff };
     let min_body_weight = if is_female { 26.51 } else { 40.0 };
     let max_body_weight = if is_female { 154.53 } else { 201.9 };
@@ -134,7 +152,7 @@ fn calculate_old_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool,)
     score
 }
 
-fn calculate_new_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool,) -> f64 {
+fn calculate_new_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool) -> f64 {
     let male_coeff: [f64; 6] = [
         47.4617885411949,
         8.47206137941125,
@@ -151,7 +169,11 @@ fn calculate_new_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool,)
         9.38773881462799e-6,
         -2.3334613884954e-8,
     ];
-    let mut denominator = if is_female { female_coeff[0] } else { male_coeff[0] };
+    let mut denominator = if is_female {
+        female_coeff[0]
+    } else {
+        male_coeff[0]
+    };
     let coefficient = if is_female { female_coeff } else { male_coeff };
     let min_body_weight = 40.0;
     let max_body_weight = if is_female { 150.95 } else { 200.95 };
@@ -171,13 +193,14 @@ fn calculate_new_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool,)
     score
 }
 
-fn calculate_dots(body_weight: &f64, lifted_weight: &f64, is_female: bool,) -> f64 {
+fn calculate_dots(body_weight: &f64, lifted_weight: &f64, is_female: bool) -> f64 {
     let male_coeff: [f64; 5] = [
         -307.75076,
         24.0900756,
         -0.1918759221,
         0.0007391293,
-        -0.000001093,    ];
+        -0.000001093,
+    ];
     let female_coeff: [f64; 5] = [
         -57.96288,
         13.6175032,
@@ -186,7 +209,11 @@ fn calculate_dots(body_weight: &f64, lifted_weight: &f64, is_female: bool,) -> f
         -0.0000010706,
     ];
 
-    let mut denominator = if is_female { female_coeff[0] } else { male_coeff[0] };
+    let mut denominator = if is_female {
+        female_coeff[0]
+    } else {
+        male_coeff[0]
+    };
     let coefficient = if is_female { female_coeff } else { male_coeff };
     let max_body_weight = if is_female { 150.0 } else { 210.0 };
     let final_body_weight = if body_weight > &max_body_weight {
@@ -218,7 +245,6 @@ pub fn calculate_score(competitor_info: CompetitorInfo) -> Score {
         competitor_info.lifted_weight.parse::<f64>().unwrap() * weight_coefficient
     };
 
-
     Score {
         body_weight: body_weight_corrected,
         lifted_weight: lifted_weight_corrected,
@@ -228,14 +254,14 @@ pub fn calculate_score(competitor_info: CompetitorInfo) -> Score {
             &lifted_weight_corrected,
             is_competitor_female,
             &competitor_info.movements,
-            &competitor_info.category
+            &competitor_info.category,
         ),
         ipf: calculate_ipf(
             &body_weight_corrected,
             &lifted_weight_corrected,
             is_competitor_female,
             &competitor_info.movements,
-            &competitor_info.category
+            &competitor_info.category,
         ),
         old_wilks: calculate_old_wilks(
             &body_weight_corrected,

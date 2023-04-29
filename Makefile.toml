@@ -29,3 +29,16 @@ cp -a src/images/* dist/assets/images/
 cp -r dist/* ../static
 rm -rf dist
 '''
+
+[tasks.clippy]
+workspace = false
+install_crate = "cargo-clippy"
+command = "cargo"
+args = ["clippy"]
+
+[tasks.format]
+clear = true
+workspace = false
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--all", "--", "--check"]

@@ -15,20 +15,9 @@ jobs:
         with:
           toolchain: stable
           target: wasm32-unknown-unknown
-      - name: Install cargo-make
-        uses: baptiste0928/cargo-install@v2
-        with:
-          crate: cargo-make
-          version: "^0.36.5"
-      - name: Install dioxus-cli
-        uses: baptiste0928/cargo-install@v2
-        with:
-          crate: dioxus-cli
-          version: "^0.3.0"
-      - name: Build Frontend
-        run: cargo make front
-      - name: Build API
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release --all-features
+          components: rustfmt, clippy
+      - uses: davidB/rust-cargo-make@v1
+      - name: Run cargo fmt
+        run: cargo make format
+      - name: Run cargo clippy
+        run: cargo make clippy
