@@ -14,11 +14,7 @@ jobs:
           toolchain: stable
           target: wasm32-unknown-unknown
           components: rustfmt, clippy
-      - name: Install cargo-make
-        uses: baptiste0928/cargo-install@v2
-        with:
-          crate: cargo-make
-          version: "^0.36.5"
+      - uses: davidB/rust-cargo-make@v1
       - name: Run cargo fmt
         run: cargo make format
       - name: Run cargo clippy
