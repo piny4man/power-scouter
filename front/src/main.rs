@@ -1,10 +1,9 @@
 #![allow(non_snake_case)]
 mod components;
 
-// import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
+use components::{Button, Field, Header, ScoreBubble, Title};
 use dioxus::prelude::*;
-use shared::models::{Category, Gendre, Movements, Units, Score, CompetitorInfo};
-use components::{Header, Button, Field, ScoreBubble, Title};
+use shared::models::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
 
 const HOST: &str = "https://power-scouter.shuttleapp.rs";
 
@@ -58,7 +57,6 @@ fn App(cx: Scope) -> Element {
                     Ok(new_score) => {
                         log::info!("Score calculated!");
                         score.set(Some(new_score.json().await.unwrap()))
-
                     }
                     Err(err) => {
                         log::info!("User creation failed, {err:?}");
@@ -66,7 +64,6 @@ fn App(cx: Scope) -> Element {
                 }
             }
         })
-
     };
 
     cx.render(rsx! {

@@ -15,7 +15,7 @@ jobs:
           target: wasm32-unknown-unknown
           components: rustfmt, clippy
       - uses: davidB/rust-cargo-make@v1
-      # - name: Run cargo fmt
-      #   run: cargo make format
+      - name: Run cargo fmt
+        run: cargo make format
       - name: Run cargo clippy
         run: cargo make clippy
