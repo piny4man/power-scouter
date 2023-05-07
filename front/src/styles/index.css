@@ -13,7 +13,9 @@ main {
   align-items: stretch;
   width: 100vw;
   min-height: 100vh;
+  max-height: 100vh;
   font-family: sans-serif;
+  overflow: hidden;
 }
 
 main > header {
@@ -70,6 +72,8 @@ main > article.container {
   align-items: stretch;
   padding:  0 40px 40px;
   box-sizing: border-box;
+  height: 100%;
+  overflow: hidden;
 }
 
 main > article.container > section {
@@ -105,6 +109,24 @@ main > article.container > section > div {
   transition: ease all 0.2s;
   padding: 35px;
   box-sizing: border-box;
+}
+
+main > article.container > section .score-container {
+  flex: 0;
+}
+
+main > article.container > section .history-container {
+  margin-top: 20px;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+main > article.container > section .history-container ul {
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
 }
 
 main > article.container > section.competitor {
@@ -164,7 +186,7 @@ main > article.container > section > div input[type=text].invalid {
   color: red;
 }
 
-main > article.container > section > div .score-container {
+main > article.container > section > div .score-row {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -174,6 +196,11 @@ main > article.container > section > div .score-container {
   box-sizing: border-box;
   border: 1px solid #CBC8C833;
   border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+main > article.container > section > div .score-row:last-of-type {
+  margin-bottom: 10px;
 }
 
 @media only screen and (max-width: 950px) {
