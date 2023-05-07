@@ -23,7 +23,8 @@ Fullstack web application made with 🧡 and Rust.
 - [x]  API Score calculation
 - [x]  Refactor frontend components
 - [x]  Scores hitory
-- [ ]  Clear inputs after successful score calculation
+- [x]  Clear inputs after successful score calculation
+- [ ]  Add date and competitor data to scores
 - [ ]  Improve UI
 - [ ]  Optimize frontend build and size
 

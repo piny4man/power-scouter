@@ -24,7 +24,6 @@ main > header {
   width: 100%;
   padding: 10px 40px;
   box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -73,6 +72,9 @@ main > article.container {
   padding:  0 40px 40px;
   box-sizing: border-box;
   height: 100%;
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
   overflow: hidden;
 }
 
