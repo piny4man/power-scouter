@@ -2,7 +2,7 @@ use actix_cors::Cors;
 use actix_web::{
     get, post,
     web::{scope, Data, Json, ServiceConfig},
-    Result, HttpRequest,
+    HttpRequest, Result,
 };
 use shuttle_actix_web::ShuttleActixWeb;
 use std::{path::PathBuf, sync::Mutex};
@@ -20,7 +20,10 @@ async fn hello_world() -> &'static str {
 }
 
 #[post("")]
-async fn calculate_results(req: HttpRequest, competitor_info: Json<CompetitorInfo>) -> Result<Json<Score>> {
+async fn calculate_results(
+    req: HttpRequest,
+    competitor_info: Json<CompetitorInfo>,
+) -> Result<Json<Score>> {
     let results = calculate_score(competitor_info.into_inner());
     let state = req
         .app_data::<Data<AppState>>()
@@ -50,16 +53,8 @@ async fn actix_web(
         let history_cors = Cors::permissive();
         cfg.app_data(scores.clone())
             .service(hello_world)
-            .service(
-                scope("/score")
-                .wrap(cors)
-                .service(calculate_results)
-            )
-            .service(
-                scope("/history")
-                .wrap(history_cors)
-                .service(scores_history)
-            )
+            .service(scope("/score").wrap(cors).service(calculate_results))
+            .service(scope("/history").wrap(history_cors).service(scores_history))
             .service(
                 actix_files::Files::new("/", static_folder)
                     .show_files_listing()

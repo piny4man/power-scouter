@@ -74,7 +74,6 @@ fn App(cx: Scope) -> Element {
                         log::info!("Score calculated!");
                         score.set(Some(new_score.json().await.unwrap()));
                         force_get_history.set(())
-
                     }
                     Err(err) => {
                         log::info!("User creation failed, {err:?}");
@@ -382,7 +381,7 @@ fn App(cx: Scope) -> Element {
                                 }
                             )
                         } else {
-                            rsx!("There are no score history yet")
+                            rsx!("There is no score history yet")
                         }
                     }
                 }
