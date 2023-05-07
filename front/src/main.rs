@@ -11,6 +11,19 @@ fn score_endpoint() -> String {
     format!("{HOST}/score")
 }
 
+fn history_endpoint() -> String {
+    format!("{HOST}/history")
+}
+
+async fn retrieve_history() -> Vec<Score> {
+    reqwest::get(&history_endpoint())
+        .await
+        .unwrap()
+        .json::<Vec<Score>>()
+        .await
+        .unwrap()
+}
+
 fn main() {
     dioxus_web::launch(App);
 }
@@ -24,6 +37,8 @@ fn App(cx: Scope) -> Element {
     let category = use_state::<Category>(cx, || Category::Raw);
     let movements = use_state::<Movements>(cx, || Movements::FullMeet);
     let score = use_state::<Option<Score>>(cx, || None);
+    let score_history = use_state::<Option<Vec<Score>>>(cx, || None);
+    let force_get_history = use_state(&cx, || ());
     let is_body_weight_numeric = body_weight.get().to_string().parse::<f64>().is_ok();
     let is_lifted_weight_numeric = lifted_weight.get().to_string().parse::<f64>().is_ok();
 
@@ -43,6 +58,7 @@ fn App(cx: Scope) -> Element {
             movements: movements_copy.clone(),
         };
         let score = score.to_owned();
+        let force_get_history = force_get_history.clone();
 
         cx.spawn({
             async move {
@@ -56,7 +72,8 @@ fn App(cx: Scope) -> Element {
                 match calculated_score {
                     Ok(new_score) => {
                         log::info!("Score calculated!");
-                        score.set(Some(new_score.json().await.unwrap()))
+                        score.set(Some(new_score.json().await.unwrap()));
+                        force_get_history.set(())
                     }
                     Err(err) => {
                         log::info!("User creation failed, {err:?}");
@@ -65,6 +82,20 @@ fn App(cx: Scope) -> Element {
             }
         })
     };
+
+    {
+        let score_history = score_history.clone();
+        use_effect(cx, force_get_history, |_| async move {
+            let retrieved_history = retrieve_history().await;
+            if retrieved_history.is_empty() {
+                log::info!("No users found!");
+                score_history.set(None);
+            } else {
+                log::info!("Users found!");
+                score_history.set(Some(retrieved_history));
+            }
+        });
+    }
 
     cx.render(rsx! {
         main {
@@ -277,11 +308,12 @@ fn App(cx: Scope) -> Element {
                         }
                     }
                     div {
+                        class: "score-container",
                         Title {
                             "Results"
                         }
                         div {
-                            class: "score-container",
+                            class: "score-row",
                             match score.get() {
                                 Some(res) => cx.render(rsx! {
                                     ScoreBubble {
@@ -309,6 +341,47 @@ fn App(cx: Scope) -> Element {
                                     "No score"
                                 })
                             }
+                        }
+                    }
+                    div {
+                        class: "history-container",
+                        Title {
+                            "History"
+                        }
+                        if let Some(score_history) = score_history.get() {
+                            rsx!(
+                                ul {
+                                    {score_history.iter().map(|item| {
+                                        rsx!(
+                                            li {
+                                                class: "score-row",
+                                                ScoreBubble {
+                                                    label: "IPF GL:",
+                                                    score: &item.ipfgl,
+                                                }
+                                                ScoreBubble {
+                                                    label: "IPF:",
+                                                    score: &item.ipf,
+                                                }
+                                                ScoreBubble {
+                                                    label: "Wilks:",
+                                                    score: &item.new_wilks,
+                                                }
+                                                ScoreBubble {
+                                                    label: "Old Wilks:",
+                                                    score: &item.old_wilks,
+                                                }
+                                                ScoreBubble {
+                                                    label: "DOTS:",
+                                                    score: &item.dots,
+                                                }
+                                            }
+                                        )
+                                    })}
+                                }
+                            )
+                        } else {
+                            rsx!("There is no score history yet")
                         }
                     }
                 }
