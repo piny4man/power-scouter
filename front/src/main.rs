@@ -38,9 +38,18 @@ fn App(cx: Scope) -> Element {
     let movements = use_state::<Movements>(cx, || Movements::FullMeet);
     let score = use_state::<Option<Score>>(cx, || None);
     let score_history = use_state::<Option<Vec<Score>>>(cx, || None);
-    let force_get_history = use_state(&cx, || ());
+    let force_get_history = use_state(cx, || ());
     let is_body_weight_numeric = body_weight.get().to_string().parse::<f64>().is_ok();
     let is_lifted_weight_numeric = lifted_weight.get().to_string().parse::<f64>().is_ok();
+
+    let clear_fields = move || {
+        gendre.set(Gendre::Male);
+        units.set(Units::Kg);
+        body_weight.set("".to_string());
+        lifted_weight.set("".to_string());
+        category.set(Category::Raw);
+        movements.set(Movements::FullMeet);
+    };
 
     let get_score = move |_| {
         let gendre_copy = gendre.get();
@@ -62,7 +71,6 @@ fn App(cx: Scope) -> Element {
 
         cx.spawn({
             async move {
-                // let calculated_score = calculate_score(competitor);
                 let calculated_score = reqwest::Client::new()
                     .post(&score_endpoint())
                     .json(&competitor)
@@ -80,7 +88,8 @@ fn App(cx: Scope) -> Element {
                     }
                 }
             }
-        })
+        });
+        clear_fields()
     };
 
     {
