@@ -1,5 +1,5 @@
 
-# [Power Scouter](https://power-scouter.shuttleapp.rs/) [![Pull Request Build validation](https://github.com/piny4man/power-scouter/actions/workflows/pull-request.yml/badge.svg)](https://github.com/piny4man/power-scouter/actions/workflows/pull-request.yml)
+# [Power Scouter](https://power-scouter.shuttleapp.rs/) [![Build](https://github.com/piny4man/power-scouter/actions/workflows/pull-request.yml/badge.svg)](https://github.com/piny4man/power-scouter/actions/workflows/pull-request.yml)
 ![Scouter](https://github.com/piny4man/power-scouter/blob/main/static/assets/images/scouter.png)
 
 Powerlifting competition points calculator.
@@ -15,16 +15,16 @@ Fullstack web application made with 🧡 and Rust.
 
 **Server:** [Actix Web](https://actix.rs/)
 
+**Deployement** [Shuttle](https://www.shuttle.rs/)
 
 ## Roadmap
 - [x]  Integer validation on inputs
 - [x]  Local points calculation
 - [x]  API Score calculation
 - [x]  Refactor frontend components
-- [ ]  Localstorage calculations history
-- [ ]  Authentiacion, passwordless approach
-- [ ]  Optimize frontend build and size
+- [ ]  Scores hitory
 - [ ]  Improve UI
+- [ ]  Optimize frontend build and size
 
 
 ## Website

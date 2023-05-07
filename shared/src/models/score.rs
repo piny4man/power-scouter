@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use super::Units;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Score {
     pub body_weight: f64,
     pub lifted_weight: f64,
