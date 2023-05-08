@@ -1,7 +1,6 @@
 use actix_cors::Cors;
 use actix_web::{
-    get, post,
-    web::{scope, Data, Json, ServiceConfig},
+    web::{self, scope, Data, Json, ServiceConfig},
     HttpRequest, Result,
 };
 use shuttle_actix_web::ShuttleActixWeb;
@@ -14,12 +13,10 @@ struct AppState {
     scores: Mutex<Vec<Score>>,
 }
 
-#[get("/hello")]
 async fn hello_world() -> &'static str {
     "Hello World!"
 }
 
-#[post("")]
 async fn calculate_results(
     req: HttpRequest,
     competitor_info: Json<CompetitorInfo>,
@@ -32,7 +29,6 @@ async fn calculate_results(
     Ok(Json(results))
 }
 
-#[get("")]
 async fn scores_history(req: HttpRequest) -> Result<Json<Vec<Score>>> {
     let state = req
         .app_data::<Data<AppState>>()
@@ -50,16 +46,19 @@ async fn actix_web(
     });
     let config = move |cfg: &mut ServiceConfig| {
         let cors = Cors::permissive();
-        let history_cors = Cors::permissive();
-        cfg.app_data(scores.clone())
-            .service(hello_world)
-            .service(scope("/score").wrap(cors).service(calculate_results))
-            .service(scope("/history").wrap(history_cors).service(scores_history))
-            .service(
-                actix_files::Files::new("/", static_folder)
-                    .show_files_listing()
-                    .index_file("index.html"),
-            );
+        cfg.service(
+            scope("/")
+                .app_data(scores.clone())
+                .wrap(cors)
+                .route("hello", web::get().to(hello_world))
+                .route("score", web::post().to(calculate_results))
+                .route("history", web::get().to(scores_history)),
+        )
+        .service(
+            actix_files::Files::new("/", static_folder)
+                .show_files_listing()
+                .index_file("index.html"),
+        );
     };
     Ok(config.into())
 }
