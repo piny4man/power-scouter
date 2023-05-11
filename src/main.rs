@@ -14,7 +14,7 @@ struct AppState {
     scores: Mutex<Vec<Score>>,
 }
 
-#[get("/hello")]
+#[get("")]
 async fn hello_world() -> &'static str {
     "Hello World!"
 }

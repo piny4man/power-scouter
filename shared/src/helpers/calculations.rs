@@ -50,9 +50,8 @@ fn calculate_ipfgl(
     }
 
     let power = -coeff[2] * body_weight;
-    let score = lifted_weight * (100.0 / (coeff[0] - coeff[1] * power.exp()));
 
-    score
+    lifted_weight * (100.0 / (coeff[0] - coeff[1] * power.exp()))
 }
 
 fn calculate_ipf(
@@ -105,10 +104,10 @@ fn calculate_ipf(
     }
 
     let body_weight_ln = body_weight.ln();
-    let score = 500.0
+
+    500.0
         + 100.0 * (lifted_weight - (coeff[0] * body_weight_ln - coeff[1]))
-            / (coeff[2] * body_weight_ln - coeff[3]);
-    score
+            / (coeff[2] * body_weight_ln - coeff[3])
 }
 
 fn calculate_old_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool) -> f64 {
@@ -141,15 +140,14 @@ fn calculate_old_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool) 
     } else if body_weight > &max_body_weight {
         max_body_weight
     } else {
-        body_weight.clone()
+        *body_weight
     };
 
-    for i in 1..6 {
+    for (i, _coeff) in coefficient.iter().enumerate().skip(1) {
         denominator += coefficient[i] * final_body_weight.powi(i.try_into().unwrap());
     }
 
-    let score = (500.0 / denominator) * lifted_weight;
-    score
+    (500.0 / denominator) * lifted_weight
 }
 
 fn calculate_new_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool) -> f64 {
@@ -182,15 +180,14 @@ fn calculate_new_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool) 
     } else if body_weight > &max_body_weight {
         max_body_weight
     } else {
-        body_weight.clone()
+        *body_weight
     };
 
-    for i in 1..6 {
+    for (i, _coeff) in coefficient.iter().enumerate().skip(1) {
         denominator += coefficient[i] * final_body_weight.powi(i.try_into().unwrap());
     }
 
-    let score = (600.0 / denominator) * lifted_weight;
-    score
+    (600.0 / denominator) * lifted_weight
 }
 
 fn calculate_dots(body_weight: &f64, lifted_weight: &f64, is_female: bool) -> f64 {
@@ -219,15 +216,14 @@ fn calculate_dots(body_weight: &f64, lifted_weight: &f64, is_female: bool) -> f6
     let final_body_weight = if body_weight > &max_body_weight {
         max_body_weight
     } else {
-        body_weight.clone()
+        *body_weight
     };
 
-    for i in 1..5 {
+    for (i, _coeff) in coefficient.iter().enumerate().skip(1) {
         denominator += coefficient[i] * final_body_weight.powi(i.try_into().unwrap());
     }
 
-    let score = (500.0 / denominator) * lifted_weight;
-    score
+    (500.0 / denominator) * lifted_weight
 }
 
 pub fn calculate_score(competitor_info: CompetitorInfo) -> Score {
