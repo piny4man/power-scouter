@@ -105,7 +105,9 @@ fn calculate_ipf(
 
     let body_weight_ln = body_weight.ln();
 
-    500.0 + 100.0 * (lifted_weight - (coeff[0] * body_weight_ln - coeff[1])) / (coeff[2] * body_weight_ln - coeff[3])
+    500.0
+        + 100.0 * (lifted_weight - (coeff[0] * body_weight_ln - coeff[1]))
+            / (coeff[2] * body_weight_ln - coeff[3])
 }
 
 fn calculate_old_wilks(body_weight: &f64, lifted_weight: &f64, is_female: bool) -> f64 {

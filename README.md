@@ -7,8 +7,6 @@ Powerlifting competition points calculator.
 Fullstack web application made with 🧡 and Rust.
 
 
-
-
 ## Tech Stack
 
 **Client:** [Dioxus](https://dioxuslabs.com/)
