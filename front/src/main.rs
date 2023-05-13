@@ -5,7 +5,7 @@ use components::{Button, Field, Header, ScoreBubble, Title};
 use dioxus::prelude::*;
 use shared::models::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
 
-const HOST: &str = "https://power-scouter.shuttleapp.rs";
+const HOST: &str = "https://power-scouter.shuttleapp.rs/api";
 
 fn score_endpoint() -> String {
     format!("{HOST}/score")
@@ -110,6 +110,7 @@ fn App(cx: Scope) -> Element {
         main {
             style {
                 include_str!("./styles/index.css"),
+                include_str!("./styles/header.css"),
                 include_str!("./styles/button.css"),
                 include_str!("./styles/field.css"),
                 include_str!("./styles/score_bubble.css")
