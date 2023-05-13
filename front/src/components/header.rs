@@ -3,12 +3,19 @@ use dioxus::prelude::*;
 pub fn Header(cx: Scope) -> Element {
     cx.render(rsx!(
         header {
+            class: "app__header",
             div {
                 img {
                     src: "/assets/images/scouter.png"
                 }
-                h1 {
-                    "Power Scouter"
+                div {
+                    class: "header-text",
+                    h1 {
+                        "Power Scouter"
+                    }
+                    h2 {
+                        "Calculate your powerlifting score and compare it to other lifters!"
+                    }
                 }
             }
             div {
