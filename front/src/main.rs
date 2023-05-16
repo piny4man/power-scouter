@@ -5,6 +5,8 @@ use components::{Button, Field, Header, ScoreBubble, Title};
 use dioxus::prelude::*;
 use shared::models::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
 
+use crate::components::ScoreCompetitor;
+
 const HOST: &str = "https://power-scouter.shuttleapp.rs/api";
 
 fn score_endpoint() -> String {
@@ -365,6 +367,19 @@ fn App(cx: Scope) -> Element {
                                         rsx!(
                                             li {
                                                 class: "score-row",
+                                                header {
+                                                    h4 {
+                                                        "{&item.gendre.to_string()}"
+                                                    }
+                                                }
+                                                // ScoreCompetitor {
+                                                //     gendre: String::from(item.gendre.to_string()),
+                                                //     category: &item.category.to_string(),
+                                                //     movements: &item.movements.to_string(),
+                                                //     unit: &item.unit.to_string(),
+                                                //     body_weight: &item.body_weight,
+                                                //     lifted_weight: &item.lifted_weight,
+                                                // }
                                                 ScoreBubble {
                                                     label: "IPF GL:",
                                                     score: &item.ipfgl,

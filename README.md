@@ -23,7 +23,8 @@ Fullstack web application made with 🧡 and Rust.
 - [x]  Scores hitory
 - [x]  Clear inputs after successful score calculation
 - [ ]  Add date and competitor data to scores
-- [ ]  Improve UI
+- [ ]  Add "session" data
+- [ ]  Improve UI (Investigate SASS)
 - [ ]  Optimize frontend build and size
 
 
