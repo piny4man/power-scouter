@@ -5,6 +5,8 @@ use components::{Button, Field, Header, ScoreBubble, Title};
 use dioxus::prelude::*;
 use shared::models::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
 
+use crate::components::ScoreCompetitor;
+
 const HOST: &str = "https://power-scouter.shuttleapp.rs/api";
 
 fn score_endpoint() -> String {
@@ -113,7 +115,7 @@ fn App(cx: Scope) -> Element {
                 include_str!("./styles/header.css"),
                 include_str!("./styles/button.css"),
                 include_str!("./styles/field.css"),
-                include_str!("./styles/score_bubble.css")
+                include_str!("./styles/score.css")
             }
             Header {},
             article {
@@ -147,8 +149,10 @@ fn App(cx: Scope) -> Element {
                                 Field {
                                     className: "radio"
                                     label: "Male",
+                                    htmlFor: "male",
                                     input {
                                         "type": "radio",
+                                        id: "male",
                                         name: "gendre",
                                         value: "male",
                                         checked: gendre.to_string() == Gendre::Male.to_string(),
@@ -157,10 +161,12 @@ fn App(cx: Scope) -> Element {
                                 }
                                 Field {
                                     className: "radio",
-                                    label: "Female"
+                                    label: "Female",
+                                    htmlFor: "female",
                                     input {
                                         "type": "radio",
                                         name: "gendre",
+                                        id: "female",
                                         value: "female",
                                         checked: gendre.to_string() == Gendre::Female.to_string(),
                                         onchange: move |_| gendre.set(Gendre::Female)
@@ -174,10 +180,12 @@ fn App(cx: Scope) -> Element {
                                 }
                                 Field {
                                     className: "radio",
-                                    label: "Kilogram (kg)"
+                                    label: "Kilogram (kg)",
+                                    htmlFor: "kilograms",
                                     input {
                                         "type": "radio",
                                         name: "units",
+                                        id: "kilograms",
                                         value: "kilograms",
                                         checked: units.to_string() == Units::Kg.to_string(),
                                         onchange: move |_| units.set(Units::Kg)
@@ -185,10 +193,12 @@ fn App(cx: Scope) -> Element {
                                 }
                                 Field {
                                     className: "radio",
-                                    label: "Pounds (lb)"
+                                    label: "Pounds (lb)",
+                                    htmlFor: "pounds",
                                     input {
                                         "type": "radio",
                                         name: "units",
+                                        id: "pounds",
                                         value: "pounds",
                                         checked: units.to_string() == Units::Lb.to_string(),
                                         onchange: move |_| units.set(Units::Lb)
@@ -242,9 +252,11 @@ fn App(cx: Scope) -> Element {
                                 Field {
                                     className: "radio",
                                     label: "Raw/Classic",
+                                    htmlFor: "raw",
                                     input {
                                         "type": "radio",
                                         name: "category",
+                                        id: "raw",
                                         value: "raw",
                                         checked: category.to_string() == Category::Raw.to_string(),
                                         onchange: move |_| category.set(Category::Raw)
@@ -253,9 +265,11 @@ fn App(cx: Scope) -> Element {
                                 Field {
                                     className: "radio",
                                     label: "Equipped",
+                                    htmlFor: "equipped",
                                     input {
                                         "type": "radio",
                                         name: "category",
+                                        id: "equipped",
                                         value: "equipped",
                                         checked: category.to_string() == Category::Equipped.to_string(),
                                         onchange: move |_| category.set(Category::Equipped)
@@ -270,9 +284,11 @@ fn App(cx: Scope) -> Element {
                                 Field {
                                     className: "radio",
                                     label: "Full meet",
+                                    htmlFor: "fullmeet",
                                     input {
                                         "type": "radio",
                                         name: "movements",
+                                        id: "fullmeet",
                                         value: "fullmeet",
                                         checked: movements.to_string() == Movements::FullMeet.to_string(),
                                         onchange: move |_| movements.set(Movements::FullMeet)
@@ -281,9 +297,11 @@ fn App(cx: Scope) -> Element {
                                 Field {
                                     className: "radio",
                                     label: "Bench only",
+                                    htmlFor: "bench",
                                     input {
                                         "type": "radio",
                                         name: "movements",
+                                        id: "bench",
                                         value: "bench",
                                         checked: movements.to_string() == Movements::BenchOnly.to_string(),
                                         onchange: move |_| movements.set(Movements::BenchOnly)
@@ -318,33 +336,44 @@ fn App(cx: Scope) -> Element {
                         }
                     }
                     div {
-                        class: "score-container",
+                        class: "scores",
                         Title {
                             "Results"
                         }
                         div {
-                            class: "score-row",
+                            class: "score-container",
                             match score.get() {
                                 Some(res) => cx.render(rsx! {
-                                    ScoreBubble {
-                                        label: "IPF GL:",
-                                        score: &res.ipfgl,
+                                    ScoreCompetitor {
+                                        gendre: res.gendre.clone().to_string(),
+                                        category: res.category.clone().to_string(),
+                                        movements: res.movements.clone().to_string(),
+                                        unit: res.unit.clone().to_string(),
+                                        body_weight: res.clone().body_weight,
+                                        lifted_weight: res.clone().lifted_weight,
                                     }
-                                    ScoreBubble {
-                                        label: "IPF:",
-                                        score: &res.ipf,
-                                    }
-                                    ScoreBubble {
-                                        label: "Wilks:",
-                                        score: &res.new_wilks,
-                                    }
-                                    ScoreBubble {
-                                        label: "Old Wilks:",
-                                        score: &res.old_wilks,
-                                    }
-                                    ScoreBubble {
-                                        label: "DOTS:",
-                                        score: &res.dots,
+                                    div {
+                                        class: "score-row",
+                                        ScoreBubble {
+                                            label: "IPF GL:",
+                                            score: &res.ipfgl,
+                                        }
+                                        ScoreBubble {
+                                            label: "IPF:",
+                                            score: &res.ipf,
+                                        }
+                                        ScoreBubble {
+                                            label: "Wilks:",
+                                            score: &res.new_wilks,
+                                        }
+                                        ScoreBubble {
+                                            label: "Old Wilks:",
+                                            score: &res.old_wilks,
+                                        }
+                                        ScoreBubble {
+                                            label: "DOTS:",
+                                            score: &res.dots,
+                                        }
                                     }
                                 }),
                                 _ => cx.render(rsx! {
@@ -354,7 +383,7 @@ fn App(cx: Scope) -> Element {
                         }
                     }
                     div {
-                        class: "history-container",
+                        class: "history",
                         Title {
                             "History"
                         }
@@ -364,26 +393,37 @@ fn App(cx: Scope) -> Element {
                                     {score_history.iter().map(|item| {
                                         rsx!(
                                             li {
-                                                class: "score-row",
-                                                ScoreBubble {
-                                                    label: "IPF GL:",
-                                                    score: &item.ipfgl,
+                                                class: "score-container",
+                                                ScoreCompetitor {
+                                                    gendre: item.gendre.clone().to_string(),
+                                                    category: item.category.clone().to_string(),
+                                                    movements: item.movements.clone().to_string(),
+                                                    unit: item.unit.clone().to_string(),
+                                                    body_weight: item.clone().body_weight,
+                                                    lifted_weight: item.clone().lifted_weight,
                                                 }
-                                                ScoreBubble {
-                                                    label: "IPF:",
-                                                    score: &item.ipf,
-                                                }
-                                                ScoreBubble {
-                                                    label: "Wilks:",
-                                                    score: &item.new_wilks,
-                                                }
-                                                ScoreBubble {
-                                                    label: "Old Wilks:",
-                                                    score: &item.old_wilks,
-                                                }
-                                                ScoreBubble {
-                                                    label: "DOTS:",
-                                                    score: &item.dots,
+                                                div {
+                                                    class: "score-row",
+                                                    ScoreBubble {
+                                                        label: "IPF GL:",
+                                                        score: &item.ipfgl,
+                                                    }
+                                                    ScoreBubble {
+                                                        label: "IPF:",
+                                                        score: &item.ipf,
+                                                    }
+                                                    ScoreBubble {
+                                                        label: "Wilks:",
+                                                        score: &item.new_wilks,
+                                                    }
+                                                    ScoreBubble {
+                                                        label: "Old Wilks:",
+                                                        score: &item.old_wilks,
+                                                    }
+                                                    ScoreBubble {
+                                                        label: "DOTS:",
+                                                        score: &item.dots,
+                                                    }
                                                 }
                                             }
                                         )

@@ -11,10 +11,10 @@ pub fn Field<'a>(
 ) -> Element {
     cx.render(rsx!(
         label {
-        class: "field {className}",
-        "for": htmlFor.unwrap_or(""),
-        "{label}",
-        children
+            class: "field {className}",
+            "for": htmlFor.unwrap_or(""),
+            "{label}",
+            children
         }
     ))
 }

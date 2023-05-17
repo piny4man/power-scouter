@@ -244,6 +244,9 @@ pub fn calculate_score(competitor_info: CompetitorInfo) -> Score {
     Score {
         body_weight: body_weight_corrected,
         lifted_weight: lifted_weight_corrected,
+        gendre: competitor_info.gendre.clone(),
+        category: competitor_info.category.clone(),
+        movements: competitor_info.movements.clone(),
         unit: competitor_info.units,
         ipfgl: calculate_ipfgl(
             &body_weight_corrected,
