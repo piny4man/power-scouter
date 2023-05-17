@@ -50,11 +50,11 @@ main > article.container > section > header {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  min-height: 80px;
+  min-height: 58px;
 }
 
 main > article.container > section svg {
-  max-width: 60px;
+  max-width: 45px;
   color: #344b55;
 }
 
@@ -68,15 +68,15 @@ main > article.container > section > div {
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   transition: ease all 0.2s;
-  padding: 35px;
+  padding: 20px 30px;
   box-sizing: border-box;
 }
 
-main > article.container > section .score-container {
+main > article.container > section .scores {
   flex: 0;
 }
 
-main > article.container > section .history-container {
+main > article.container > section .history {
   margin-top: 20px;
   flex: 1;
   overflow: hidden;
@@ -84,20 +84,21 @@ main > article.container > section .history-container {
   flex-direction: column;
 }
 
-main > article.container > section .history-container ul {
+main > article.container > section .history ul {
   margin: 0;
   padding: 0;
-  overflow: scroll;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 main > article.container > section.competitor {
   margin-right: 40px;
 }
 
-main > article.container > section:hover > div {
+/* main > article.container > section:hover > div {
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
   transform: scale(1.008);
-}
+} */
 
 main > article.container .title {
   margin: 0 0 20px;
@@ -145,23 +146,6 @@ main > article.container > section > div input[type=text] {
 main > article.container > section > div input[type=text].invalid {
   border-color: red;
   color: red;
-}
-
-main > article.container > section > div .score-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 20px;
-  box-sizing: border-box;
-  border: 1px solid #CBC8C833;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-
-main > article.container > section > div .score-row:last-of-type {
-  margin-bottom: 10px;
 }
 
 @media only screen and (max-width: 950px) {
