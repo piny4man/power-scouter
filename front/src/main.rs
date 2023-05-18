@@ -7,23 +7,11 @@ use shared::models::{Category, CompetitorInfo, Gendre, Movements, Score, Units};
 
 use crate::components::ScoreCompetitor;
 
+// const HOST: &str = "http://127.0.0.1:8000/api";
 const HOST: &str = "https://power-scouter.shuttleapp.rs/api";
 
 fn score_endpoint() -> String {
     format!("{HOST}/score")
-}
-
-fn history_endpoint() -> String {
-    format!("{HOST}/history")
-}
-
-async fn retrieve_history() -> Vec<Score> {
-    reqwest::get(&history_endpoint())
-        .await
-        .unwrap()
-        .json::<Vec<Score>>()
-        .await
-        .unwrap()
 }
 
 fn main() {
@@ -40,7 +28,6 @@ fn App(cx: Scope) -> Element {
     let movements = use_state::<Movements>(cx, || Movements::FullMeet);
     let score = use_state::<Option<Score>>(cx, || None);
     let score_history = use_state::<Option<Vec<Score>>>(cx, || None);
-    let force_get_history = use_state(cx, || ());
     let is_body_weight_numeric = body_weight.get().to_string().parse::<f64>().is_ok();
     let is_lifted_weight_numeric = lifted_weight.get().to_string().parse::<f64>().is_ok();
 
@@ -51,6 +38,11 @@ fn App(cx: Scope) -> Element {
         lifted_weight.set("".to_string());
         category.set(Category::Raw);
         movements.set(Movements::FullMeet);
+    };
+
+    let clear_history = move |_| {
+        score_history.set(None);
+        score.set(None);
     };
 
     let get_score = move |_| {
@@ -69,7 +61,11 @@ fn App(cx: Scope) -> Element {
             movements: movements_copy.clone(),
         };
         let score = score.to_owned();
-        let force_get_history = force_get_history.clone();
+        let score_history = score_history.to_owned();
+        let mut score_history_values = match score_history.get() {
+            Some(score_history) => score_history.to_vec(),
+            None => Vec::new(),
+        };
 
         cx.spawn({
             async move {
@@ -82,8 +78,10 @@ fn App(cx: Scope) -> Element {
                 match calculated_score {
                     Ok(new_score) => {
                         log::info!("Score calculated!");
-                        score.set(Some(new_score.json().await.unwrap()));
-                        force_get_history.set(())
+                        let new_score_data: Score = new_score.json().await.unwrap();
+                        score.set(Some(new_score_data.clone()));
+                        score_history_values.push(new_score_data);
+                        score_history.set(Some(score_history_values.to_vec()))
                     }
                     Err(err) => {
                         log::info!("User creation failed, {err:?}");
@@ -93,20 +91,6 @@ fn App(cx: Scope) -> Element {
         });
         clear_fields()
     };
-
-    {
-        let score_history = score_history.clone();
-        use_effect(cx, force_get_history, |_| async move {
-            let retrieved_history = retrieve_history().await;
-            if retrieved_history.is_empty() {
-                log::info!("No users found!");
-                score_history.set(None);
-            } else {
-                log::info!("Users found!");
-                score_history.set(Some(retrieved_history));
-            }
-        });
-    }
 
     cx.render(rsx! {
         main {
@@ -384,8 +368,14 @@ fn App(cx: Scope) -> Element {
                     }
                     div {
                         class: "history",
-                        Title {
-                            "History"
+                        header {
+                            Title {
+                                "Recent results"
+                            }
+                            Button {
+                                on_click: clear_history,
+                                "Clear history"
+                            }
                         }
                         if let Some(score_history) = score_history.get() {
                             rsx!(

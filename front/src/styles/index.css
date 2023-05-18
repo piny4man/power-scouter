@@ -84,6 +84,19 @@ main > article.container > section .history {
   flex-direction: column;
 }
 
+main > article.container > section .history > header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+main > article.container > section .history > header > .title {
+  margin: 0;
+}
+
 main > article.container > section .history ul {
   margin: 0;
   padding: 0;
@@ -149,6 +162,11 @@ main > article.container > section > div input[type=text].invalid {
 }
 
 @media only screen and (max-width: 950px) {
+  main {
+    overflow: auto;
+    max-height: none;
+  }
+
   main > header {
     padding: 10px 20px;
   }
