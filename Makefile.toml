@@ -1,6 +1,6 @@
 [tasks.shuttle]
 workspace = false
-env = { "RUST_LOG"="trace" }
+env = { "RUST_LOG" = "trace" }
 install_crate = "cargo-shuttle"
 command = "cargo"
 args = ["shuttle", "run"]
@@ -10,9 +10,6 @@ workspace = false
 script_runner = "@shell"
 script = '''
 cd front
-rm -rf dist
-mkdir -p dist/assets/images
-cp -a src/images/* dist/assets/images/
 dioxus serve
 '''
 
@@ -20,14 +17,9 @@ dioxus serve
 workspace = false
 script_runner = "@shell"
 script = '''
-rm -rf static
-mkdir static
 cd front
 dioxus build --release
-mkdir -p dist/assets/images
-cp -a src/images/* dist/assets/images/
-cp -r dist/* ../static
-rm -rf dist
+mv static ../static
 '''
 
 [tasks.clippy]

@@ -5,16 +5,23 @@
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/styles/button.css">
+<link rel="stylesheet" href="/styles/field.css">
+<link rel="stylesheet" href="/styles/header.css">
+<link rel="stylesheet" href="/styles/index.css">
+<link rel="stylesheet" href="/styles/score.css">
+
 </head>
 <body>
   <div id="main"></div>
   <script type="module">
-    import init from "/./assets/dioxus/dioxus.js";
-    init("/./assets/dioxus/dioxus_bg.wasm").then(wasm => {
+    import init from "/./assets/dioxus/powers-couter.js";
+    init("/./assets/dioxus/powers-couter_bg.wasm").then(wasm => {
       if (wasm.__wbindgen_start == undefined) {
         wasm.main();
       }
     });
   </script>
+  
 </body>
 </html>

@@ -94,18 +94,9 @@ fn App(cx: Scope) -> Element {
 
     cx.render(rsx! {
         main {
-            style {
-                include_str!("./styles/index.css"),
-                include_str!("./styles/header.css"),
-                include_str!("./styles/button.css"),
-                include_str!("./styles/field.css"),
-                include_str!("./styles/score.css")
-            }
-            Header {},
-            article {
-                class: "container",
-                section {
-                    class: "competitor",
+            Header {}
+            article { class: "container",
+                section { class: "competitor",
                     header {
                         svg {
                             "fill": "none",
@@ -120,20 +111,11 @@ fn App(cx: Scope) -> Element {
                         }
                     }
                     div {
-                        Title {
-                            "Competitor information"
-                        }
-                        section {
-                            class: "row",
-                            div {
-                                class: "column",
-                                h4 {
-                                    "Gendre"
-                                }
-                                Field {
-                                    className: "radio"
-                                    label: "Male",
-                                    htmlFor: "male",
+                        Title { "Competitor information" }
+                        section { class: "row",
+                            div { class: "column",
+                                h4 { "Gendre" }
+                                Field { className: "radio", label: "Male", htmlFor: "male",
                                     input {
                                         "type": "radio",
                                         id: "male",
@@ -143,10 +125,7 @@ fn App(cx: Scope) -> Element {
                                         onchange: move |_| gendre.set(Gendre::Male)
                                     }
                                 }
-                                Field {
-                                    className: "radio",
-                                    label: "Female",
-                                    htmlFor: "female",
+                                Field { className: "radio", label: "Female", htmlFor: "female",
                                     input {
                                         "type": "radio",
                                         name: "gendre",
@@ -157,15 +136,9 @@ fn App(cx: Scope) -> Element {
                                     }
                                 }
                             }
-                            div {
-                                class: "column",
-                                h4 {
-                                    "Units"
-                                }
-                                Field {
-                                    className: "radio",
-                                    label: "Kilogram (kg)",
-                                    htmlFor: "kilograms",
+                            div { class: "column",
+                                h4 { "Units" }
+                                Field { className: "radio", label: "Kilogram (kg)", htmlFor: "kilograms",
                                     input {
                                         "type": "radio",
                                         name: "units",
@@ -175,10 +148,7 @@ fn App(cx: Scope) -> Element {
                                         onchange: move |_| units.set(Units::Kg)
                                     }
                                 }
-                                Field {
-                                    className: "radio",
-                                    label: "Pounds (lb)",
-                                    htmlFor: "pounds",
+                                Field { className: "radio", label: "Pounds (lb)", htmlFor: "pounds",
                                     input {
                                         "type": "radio",
                                         name: "units",
@@ -190,53 +160,43 @@ fn App(cx: Scope) -> Element {
                                 }
                             }
                         }
-                        section  {
-                            class: "row",
-                            div {
-                                class: "column  full-width",
-                                h4 {
-                                    "Weight"
-                                }
-                                div {
-                                    class: "content",
-                                    Field {
-                                        className: "free-text",
-                                        label: "Body",
-                                        htmlFor: "body_weight",
+                        section { class: "row",
+                            div { class: "column  full-width",
+                                h4 { "Weight" }
+                                div { class: "content",
+                                    Field { className: "free-text", label: "Body", htmlFor: "body_weight",
                                         input {
                                             "type": "text",
                                             id: "body_weight",
                                             value: "{body_weight}",
-                                            class: if !body_weight.get().to_string().is_empty() && !is_body_weight_numeric { "invalid" } else { "" },
+                                            class: if !body_weight.get().to_string().is_empty() && !is_body_weight_numeric {
+    "invalid"
+} else {
+    ""
+},
                                             oninput: move |evt| body_weight.set(evt.value.clone())
                                         }
                                     }
-                                    Field {
-                                        className: "free-text",
-                                        label: "Lifted",
-                                        htmlFor: "lifted_weight",
+                                    Field { className: "free-text", label: "Lifted", htmlFor: "lifted_weight",
                                         input {
                                             "type": "text",
                                             id: "lifted_weight",
                                             value: "{lifted_weight}",
-                                            class: if !lifted_weight.get().to_string().is_empty() && !is_lifted_weight_numeric { "invalid" } else { "" },
+                                            class: if !lifted_weight.get().to_string().is_empty() && !is_lifted_weight_numeric {
+    "invalid"
+} else {
+    ""
+},
                                             oninput: move |evt| lifted_weight.set(evt.value.clone())
                                         }
                                     }
                                 }
                             }
                         }
-                        section {
-                            class: "row",
-                            div {
-                                class: "column",
-                                h4 {
-                                    "Category"
-                                }
-                                Field {
-                                    className: "radio",
-                                    label: "Raw/Classic",
-                                    htmlFor: "raw",
+                        section { class: "row",
+                            div { class: "column",
+                                h4 { "Category" }
+                                Field { className: "radio", label: "Raw/Classic", htmlFor: "raw",
                                     input {
                                         "type": "radio",
                                         name: "category",
@@ -246,10 +206,7 @@ fn App(cx: Scope) -> Element {
                                         onchange: move |_| category.set(Category::Raw)
                                     }
                                 }
-                                Field {
-                                    className: "radio",
-                                    label: "Equipped",
-                                    htmlFor: "equipped",
+                                Field { className: "radio", label: "Equipped", htmlFor: "equipped",
                                     input {
                                         "type": "radio",
                                         name: "category",
@@ -260,15 +217,9 @@ fn App(cx: Scope) -> Element {
                                     }
                                 }
                             }
-                            div {
-                                class: "column",
-                                h4 {
-                                    "Movements"
-                                }
-                                Field {
-                                    className: "radio",
-                                    label: "Full meet",
-                                    htmlFor: "fullmeet",
+                            div { class: "column",
+                                h4 { "Movements" }
+                                Field { className: "radio", label: "Full meet", htmlFor: "fullmeet",
                                     input {
                                         "type": "radio",
                                         name: "movements",
@@ -278,10 +229,7 @@ fn App(cx: Scope) -> Element {
                                         onchange: move |_| movements.set(Movements::FullMeet)
                                     }
                                 }
-                                Field {
-                                    className: "radio",
-                                    label: "Bench only",
-                                    htmlFor: "bench",
+                                Field { className: "radio", label: "Bench only", htmlFor: "bench",
                                     input {
                                         "type": "radio",
                                         name: "movements",
@@ -292,40 +240,29 @@ fn App(cx: Scope) -> Element {
                                     }
                                 }
                             }
-
                         }
-                        section {
-                            class: "row",
-                            Button {
-                                on_click: get_score,
-                                "Calculate"
-                            }
+                        section { class: "row",
+                            Button { on_click: get_score, "Calculate" }
                         }
                     }
                 }
-                section {
-                    class: "results",
+                section { class: "results",
                     header {
                         svg {
                             "fill": "none",
                             "viewBox": "0 0 24 24",
                             "stroke-width": "1.5",
                             "stroke": "currentColor",
-                            path  {
+                            path {
                                 "stroke-linecap": "round",
                                 "stroke-linejoin": "round",
                                 "d": "M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0"
                             }
-
                         }
                     }
-                    div {
-                        class: "scores",
-                        Title {
-                            "Results"
-                        }
-                        div {
-                            class: "score-container",
+                    div { class: "scores",
+                        Title { "Results" }
+                        div { class: "score-container",
                             match score.get() {
                                 Some(res) => cx.render(rsx! {
                                     ScoreCompetitor {
@@ -366,16 +303,10 @@ fn App(cx: Scope) -> Element {
                             }
                         }
                     }
-                    div {
-                        class: "history",
+                    div { class: "history",
                         header {
-                            Title {
-                                "Recent results"
-                            }
-                            Button {
-                                on_click: clear_history,
-                                "Clear history"
-                            }
+                            Title { "Recent results" }
+                            Button { on_click: clear_history, "Clear history" }
                         }
                         if let Some(score_history) = score_history.get() {
                             rsx!(
