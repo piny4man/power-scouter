@@ -1,5 +1,5 @@
 use actix_cors::Cors;
-use actix_files::NamedFile;
+use actix_files::{Files, NamedFile};
 use actix_web::{
     get,
     web::{self, scope, Json, ServiceConfig},
@@ -19,11 +19,6 @@ async fn calculate_results(competitor_info: Json<CompetitorInfo>) -> Result<Json
     Ok(Json(results))
 }
 
-#[get("/")]
-async fn index() -> impl Responder {
-    NamedFile::open_async("static/index.html").await
-}
-
 #[shuttle_runtime::main]
 async fn actix_web(
 ) -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Sync + Send + Clone + 'static> {
@@ -35,7 +30,7 @@ async fn actix_web(
                 .route("hello", web::get().to(hello_world))
                 .route("score", web::post().to(calculate_results)),
         )
-        .service(index);
+        .service(Files::new("/", "static").index_file("index.html"));
     };
     Ok(config.into())
 }
