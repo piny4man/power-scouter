@@ -1,9 +1,8 @@
 use actix_cors::Cors;
-use actix_files::{Files, NamedFile};
+use actix_files::Files;
 use actix_web::{
-    get,
     web::{self, scope, Json, ServiceConfig},
-    Responder, Result,
+    Result,
 };
 use shuttle_actix_web::ShuttleActixWeb;
 
