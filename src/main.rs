@@ -1,10 +1,11 @@
 use actix_cors::Cors;
+use actix_files::NamedFile;
 use actix_web::{
+    get,
     web::{self, scope, Json, ServiceConfig},
-    Result,
+    Responder, Result,
 };
 use shuttle_actix_web::ShuttleActixWeb;
-use std::path::PathBuf;
 
 use shared::helpers::calculations::calculate_score;
 use shared::models::{CompetitorInfo, Score};
@@ -18,9 +19,13 @@ async fn calculate_results(competitor_info: Json<CompetitorInfo>) -> Result<Json
     Ok(Json(results))
 }
 
+#[get("/")]
+async fn index() -> impl Responder {
+    NamedFile::open_async("static/index.html").await
+}
+
 #[shuttle_runtime::main]
 async fn actix_web(
-    #[shuttle_static_folder::StaticFolder] static_folder: PathBuf,
 ) -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Sync + Send + Clone + 'static> {
     let config = move |cfg: &mut ServiceConfig| {
         let cors = Cors::permissive();
@@ -30,11 +35,7 @@ async fn actix_web(
                 .route("hello", web::get().to(hello_world))
                 .route("score", web::post().to(calculate_results)),
         )
-        .service(
-            actix_files::Files::new("/", static_folder)
-                .show_files_listing()
-                .index_file("index.html"),
-        );
+        .service(index);
     };
     Ok(config.into())
 }

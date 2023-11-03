@@ -1,0 +1,58 @@
+.app__header {
+  background-color: transparent;
+  color: #1C1C1C;
+  width: 100%;
+  padding: 10px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app__header > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  color: #344b55;
+}
+
+.app__header h1 {
+  margin: 0 0 10px;
+}
+
+.app__header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.app__header img {
+  max-width: 100px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.app__header > div a,
+.app__header > div a:visited {
+  color: #344b55;
+  transition: ease all 0.1s;
+}
+
+.app__header > div a:hover {
+  color: #962F2B;
+}
+
+.app__header > div svg {
+  width: 100%;
+  max-width: 40px;
+  height: auto;
+}
+
+@media only screen and (max-width: 950px) {
+  .app__header > h1 {
+    margin: 0 20px;
+    font-size: 1.2em;
+    text-align: center;
+  }
+}

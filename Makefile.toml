@@ -10,7 +10,7 @@ workspace = false
 script_runner = "@shell"
 script = '''
 cd front
-dioxus serve
+dx serve
 '''
 
 [tasks.front]
@@ -18,7 +18,7 @@ workspace = false
 script_runner = "@shell"
 script = '''
 cd front
-dioxus build --release
+dx build --release
 mv static ../static
 '''
 
