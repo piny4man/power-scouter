@@ -18,8 +18,8 @@ async fn calculate_results(competitor_info: Json<CompetitorInfo>) -> Result<Json
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let address = "127.0.0.1:8080";
-    println!("Starting server to {address}");
+    let address = "0.0.0.0:8080";
+    println!("Starting server to {}", address);
 
     HttpServer::new(|| {
         App::new()
