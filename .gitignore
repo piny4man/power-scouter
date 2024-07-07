@@ -2,3 +2,4 @@
 /Cargo.lock
 /front/dist
 .env
+.vscode
