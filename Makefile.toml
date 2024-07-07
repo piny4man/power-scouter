@@ -1,8 +1,10 @@
 [tasks.dev]
 workspace = false
-env = { "RUST_LOG" = "trace" }
-command = "cargo"
-args = ["run"]
+script_runner = "@shell"
+script = '''
+cd api
+cargo run
+'''
 
 [tasks.serve]
 workspace = false
