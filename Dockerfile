@@ -16,4 +16,4 @@ RUN cargo build --release --bin api
 FROM debian:bookworm-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/api /usr/local/bin
-ENTRYPOINT ["/usr/local/bin/app"]
+ENTRYPOINT ["/usr/local/bin/api"]
