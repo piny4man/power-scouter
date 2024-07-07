@@ -1,9 +1,10 @@
-[tasks.shuttle]
+[tasks.dev]
 workspace = false
-env = { "RUST_LOG" = "trace" }
-install_crate = "cargo-shuttle"
-command = "cargo"
-args = ["shuttle", "run"]
+script_runner = "@shell"
+script = '''
+cd api
+cargo run
+'''
 
 [tasks.serve]
 workspace = false
