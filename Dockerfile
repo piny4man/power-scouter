@@ -15,6 +15,7 @@ RUN cargo build --release --manifest-path api/Cargo.toml
 
 FROM debian:bookworm-slim AS runtime
 WORKDIR /app
+COPY --from=builder /app/static /usr/local/bin
 COPY --from=builder /app/target/release/api /usr/local/bin
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/api"]
