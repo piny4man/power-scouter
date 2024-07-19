@@ -1,14 +1,26 @@
-[workspace]
-members = ["front", "shared", "api"]
-
-resolver = "2"
-
-[workspace.package]
+[package]
 name = "power-scouter"
-version = "0.2.0"
+version = "0.1.0"
 edition = "2021"
 publish = false
 
-[workspace.dependencies]
+[profile.release]
+strip = true
+debug = false
+lto = true
+opt-level = "s"
+panic = "abort"
+
+[dependencies]
+dioxus = "0.4.3"
+dioxus-ssr = "0.4.3"
+log = "0.4.17"
+reqwest = { version = "0.12.5", features = ["json"] }
 serde = { version = "1.0", features = ['derive'] }
 serde_json = "1.0"
+tokio = { version = "1.38.0", features = ["full"] }
+tracing = "0.1.40"
+mime = "0.3.17"
+axum = "0.7.5"
+tower-http = { version = "0.5.2", features = ["fs"] }
+tower = { version = "0.4.13", features = ["util"] }

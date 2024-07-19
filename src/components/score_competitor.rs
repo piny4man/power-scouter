@@ -1,6 +1,7 @@
+#![allow(non_snake_case)]
 use dioxus::prelude::*;
 
-#[inline_props]
+#[component]
 pub fn ScoreCompetitor(
     cx: Scope,
     gendre: String,
