@@ -1,3 +1,8 @@
+@import url(button.css);
+@import url(field.css);
+@import url(header.css);
+@import url(score.css);
+
 body {
   margin: 0;
   padding: 0;

@@ -1,7 +1,8 @@
+#![allow(non_snake_case)]
 use dioxus::prelude::*;
 
 // TODO: Make className optional
-#[inline_props]
+#[component]
 pub fn Field<'a>(
     cx: Scope<'a>,
     label: &'a str,

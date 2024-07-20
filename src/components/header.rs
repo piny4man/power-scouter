@@ -1,10 +1,11 @@
+#![allow(non_snake_case)]
 use dioxus::prelude::*;
 
 pub fn Header(cx: Scope) -> Element {
     cx.render(rsx!(
         header { class: "app__header",
             div {
-                img { src: "/images/scouter.png" }
+                img { src: "public/images/scouter.png" }
                 div { class: "header-text",
                     h1 { "Power Scouter" }
                     h2 { "Calculate your powerlifting score and compare it to other lifters!" }

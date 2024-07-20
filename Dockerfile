@@ -11,10 +11,13 @@ COPY --from=planner /app/recipe.json recipe.json
 RUN cargo chef cook --release --recipe-path recipe.json
 # Build application
 COPY . .
-RUN cargo build --release --manifest-path api/Cargo.toml
+RUN cargo build --release
 
 FROM debian:bookworm-slim AS runtime
+RUN apt update
+RUN apt install ca-certificates -y
 WORKDIR /app
-COPY --from=builder /app/target/release/api /usr/local/bin
+COPY public/ /usr/local/bin
+COPY --from=builder /app/target/release/power-scouter /usr/local/bin
 EXPOSE 8080
-ENTRYPOINT ["/usr/local/bin/api"]
+ENTRYPOINT ["/usr/local/bin/power-scouter"]
