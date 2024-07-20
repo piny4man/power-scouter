@@ -5,7 +5,7 @@ mod routes;
 
 use axum::{
     extract::Json,
-    response::{self, Html},
+    response::Html,
     routing::{get, post},
     Router,
 };
@@ -17,22 +17,6 @@ use std::{net::SocketAddr, path::PathBuf};
 use helpers::calculations::calculate_score;
 use models::{CompetitorInfo, Score};
 use routes::home::home_route;
-
-async fn hello_world() -> &'static str {
-    "Hello World!"
-}
-
-async fn calculate_results(Json(competitor_info): Json<CompetitorInfo>) -> Json<Score> {
-    let results = calculate_score(competitor_info);
-    Json(results)
-}
-
-async fn home_endpoint() -> response::Result<Html<String>> {
-    let mut app = VirtualDom::new(home_route);
-    let _ = app.rebuild();
-
-    Ok(Html(dioxus_ssr::render(&app)))
-}
 
 #[tokio::main]
 async fn main() {
@@ -47,4 +31,25 @@ async fn main() {
     println!("Starting server to http://{}", address);
 
     axum::serve(listener, router).await.unwrap();
+}
+
+async fn hello_world() -> &'static str {
+    "Hello World!"
+}
+
+async fn calculate_results(Json(competitor_info): Json<CompetitorInfo>) -> Json<Score> {
+    let results = calculate_score(competitor_info);
+    Json(results)
+}
+
+async fn home_endpoint() -> Html<String> {
+    tokio::task::spawn_blocking(move || async move {
+        let mut app = VirtualDom::new(home_route);
+        let _ = app.rebuild();
+
+        Html(dioxus_ssr::render(&app))
+    })
+    .await
+    .unwrap()
+    .await
 }
